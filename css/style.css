@@ -357,6 +357,18 @@ body {
 .timeline-item {
     flex: 1;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timeline-item:nth-child(odd) {
+    margin-bottom: 120px;
+}
+
+.timeline-item:nth-child(even) {
+    margin-top: 120px;
+    flex-direction: column-reverse;
 }
 
 .timeline-node {
@@ -365,13 +377,13 @@ body {
     background: #06b6d4;
     border: 4px solid white;
     border-radius: 50%;
-    margin: 0 auto 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    margin: 1rem 0;
 }
 
 .timeline-node:hover {
@@ -385,51 +397,64 @@ body {
     font-size: 0.9rem;
 }
 
-.timeline-content {
+.timeline-label {
     background: white;
-    padding: 1.5rem;
+    padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #f0f0f0;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.timeline-label h4 {
+    color: #1e293b;
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
+}
+
+.timeline-label .company {
+    color: #06b6d4;
+    font-weight: 600;
+    margin: 0;
+}
+
+.timeline-details {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
     transition: all 0.3s ease;
-    border: 2px solid #f0f0f0;
+    background: white;
+    padding: 0;
+    border-radius: 8px;
 }
 
-.timeline-item:hover .timeline-content {
-    max-height: 400px;
+.timeline-item:hover .timeline-details {
+    max-height: 300px;
     opacity: 1;
-    border-color: #06b6d4;
+    padding: 1.5rem;
+    border: 2px solid #06b6d4;
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2);
+    margin-top: 0.5rem;
 }
 
-.timeline-content h4 {
-    color: #1e293b;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-}
-
-.timeline-content .company {
-    color: #06b6d4;
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-}
-
-.timeline-content .role-type {
+.timeline-details .role-type {
     color: #64748b;
     font-size: 0.85rem;
     margin-bottom: 1rem;
     font-style: italic;
 }
 
-.timeline-content ul {
+.timeline-details ul {
     list-style: none;
     padding: 0;
     text-align: left;
     margin-top: 1rem;
 }
 
-.timeline-content li {
+.timeline-details li {
     position: relative;
     padding-left: 1.5rem;
     margin-bottom: 0.5rem;
@@ -437,7 +462,7 @@ body {
     font-size: 0.9rem;
 }
 
-.timeline-content li::before {
+.timeline-details li::before {
     content: "▸";
     position: absolute;
     left: 0;
