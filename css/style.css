@@ -312,6 +312,138 @@ body {
     color: #2563eb;
 }
 
+/* Experience Timeline */
+.experience-timeline {
+    margin-top: 2rem;
+}
+
+.timeline-container {
+    position: relative;
+    padding: 3rem 0;
+}
+
+.timeline-arrow {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #06b6d4 0%, #06b6d4 100%);
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.timeline-arrow::after {
+    content: '';
+    position: absolute;
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid #06b6d4;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+}
+
+.timeline-items {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.timeline-item {
+    flex: 1;
+    text-align: center;
+}
+
+.timeline-node {
+    width: 60px;
+    height: 60px;
+    background: #06b6d4;
+    border: 4px solid white;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+}
+
+.timeline-node:hover {
+    transform: scale(1.2);
+    box-shadow: 0 8px 20px rgba(6, 182, 212, 0.5);
+}
+
+.timeline-node .year {
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.timeline-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid #f0f0f0;
+}
+
+.timeline-item:hover .timeline-content {
+    max-height: 400px;
+    opacity: 1;
+    border-color: #06b6d4;
+}
+
+.timeline-content h4 {
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.timeline-content .company {
+    color: #06b6d4;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.timeline-content .role-type {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.timeline-content ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    margin-top: 1rem;
+}
+
+.timeline-content li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.timeline-content li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: #06b6d4;
+}
+
 .sidebar-card {
     background: white;
     padding: 2rem;
