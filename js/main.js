@@ -93,10 +93,12 @@ document.addEventListener('DOMContentLoaded', function() {
 window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        navbar.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%)';
         navbar.style.backdropFilter = 'blur(10px)';
     } else {
-        navbar.style.background = '#fff';
+        navbar.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
         navbar.style.backdropFilter = 'none';
+    }
+});
     }
 });
