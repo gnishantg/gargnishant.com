@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Cloud Migration - Nishant Garg</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="images/NGLogo.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="images/NGLogo.png">
+    <link rel="shortcut icon" type="image/png" href="images/NGLogo.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .project-detail-container {
+            max-width: 900px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+
+        .project-detail-header {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .project-detail-header h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            flex: 1;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .back-link:hover {
+            gap: 12px;
+        }
+
+        .back-link i {
+            transition: transform 0.3s;
+        }
+
+        .back-link:hover i {
+            transform: translateX(-4px);
+        }
+
+        .project-detail-content {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .project-detail-content h2 {
+            color: #764ba2;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+
+        .project-detail-content h3 {
+            color: #667eea;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .project-detail-content h4 {
+            color: #764ba2;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .project-detail-content p {
+            margin-bottom: 15px;
+        }
+
+        .project-detail-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .project-detail-content li {
+            margin-bottom: 10px;
+        }
+
+        .project-detail-content strong {
+            color: #333;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .tech-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .benefit-item {
+            text-align: center;
+        }
+
+        .benefit-item .stat-value {
+            font-size: 1.8rem;
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .benefit-item .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        .challenge-box {
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .challenge-box strong {
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .project-detail-container {
+                margin-top: 80px;
+            }
+
+            .project-detail-header {
+                flex-direction: column;
+            }
+
+            .project-detail-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="images/NGLogo.png" alt="Nishant Garg" title="Nishant Garg" class="nav-logo-img">
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="blogs.html" class="nav-link">Blogs</a>
+                <a href="projects.html" class="nav-link active">Projects</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="project-detail-container">
+            <div class="project-detail-header">
+                <h1>Hybrid Cloud Migration & Secure Landing Zone Deployment for Financial Enterprise</h1>
+                <a href="projects.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+            </div>
+
+            <div class="project-detail-content">
+                <h2>Introduction</h2>
+                <p>As part of a digital transformation initiative, I led the design and deployment of a hybrid cloud infrastructure for a major enterprise client in the finance sector. The client aimed to migrate critical applications from their on-premises datacenter to Microsoft Azure, leveraging cloud scalability while maintaining robust security and compliance. This project involved a greenfield deployment of a Virtual Data Center (VDC) in Azure, executed in a phased manner to ensure minimal disruption and maximum operational continuity.</p>
+
+                <h2>Project Description</h2>
+                <p>The solution architecture centered around a secure, scalable Azure landing zone, designed to support both public and private workloads. The landing zone comprised two distinct Virtual Networks (VNets):</p>
+
+                <h3>Public VNet (DMZ)</h3>
+                <ul>
+                    <li>Hosted a highly available (HA) Cisco Network Virtual Appliance (NVA) for advanced traffic sniffing and logging.</li>
+                    <li>All inbound and outbound public traffic was routed through the Cisco NVA using User Defined Routes (UDRs).</li>
+                    <li>The public subnet was configured as a Demilitarized Zone (DMZ), exposing only the Cisco firewall IP to external sources, thereby minimizing the attack surface.</li>
+                </ul>
+
+                <h3>Private VNet</h3>
+                <ul>
+                    <li>Dedicated to private traffic originating from the client's on-premises datacenter via a secure VPN tunnel (deployed in East US).</li>
+                    <li>Traffic was routed through a separate Cisco NVA for comprehensive logging and monitoring.</li>
+                    <li>Ensured strict network segmentation and compliance with financial industry regulations.</li>
+                </ul>
+
+                <p>The landing zone was further integrated with additional VNets through peering:</p>
+                <ul>
+                    <li><strong>Active Directory VNet:</strong> For centralized authentication and identity management.</li>
+                    <li><strong>Spoke/Application VNets:</strong> Deployed across different subscriptions to host various application workloads, ensuring scalability and isolation.</li>
+                </ul>
+
+                <p>The Cisco NVAs acted as the central routing and security enforcement points, directing traffic between the DMZ, private network, and application VNets.</p>
+
+                <h2>Key Components & Technologies</h2>
+                <div class="tech-stack">
+                    <span class="tech-tag">VPN Tunnel</span>
+                    <span class="tech-tag">Cisco NVA</span>
+                    <span class="tech-tag">User Defined Routes (UDRs)</span>
+                    <span class="tech-tag">Network Security Groups (NSGs)</span>
+                    <span class="tech-tag">Gateway Subnet</span>
+                    <span class="tech-tag">VNet Peering</span>
+                    <span class="tech-tag">Load Balancers</span>
+                    <span class="tech-tag">Virtual Machines (VMs)</span>
+                </div>
+
+                <h2>Project Challenges & Solutions</h2>
+
+                <div class="challenge-box">
+                    <h3>Challenge 1: Security Compliance</h3>
+                    <p><strong>Problem:</strong> Meeting SOX and PCI-DSS requirements in the cloud</p>
+                    <p><strong>Solution:</strong></p>
+                    <ul>
+                        <li>Multi-layer security architecture</li>
+                        <li>Continuous compliance monitoring</li>
+                        <li>Automated audit trail generation</li>
+                    </ul>
+                    <p><strong>Result:</strong> 100% compliance audit success</p>
+                </div>
+
+                <div class="challenge-box">
+                    <h3>Challenge 2: Application Dependencies</h3>
+                    <p><strong>Problem:</strong> Complex interdependencies between legacy applications</p>
+                    <p><strong>Solution:</strong></p>
+                    <ul>
+                        <li>Detailed dependency mapping</li>
+                        <li>Phased migration approach</li>
+                        <li>Parallel running during transition</li>
+                    </ul>
+                    <p><strong>Result:</strong> Zero-downtime migration achieved</p>
+                </div>
+
+                <div class="challenge-box">
+                    <h3>Challenge 3: Change Management</h3>
+                    <p><strong>Problem:</strong> User resistance to cloud migration</p>
+                    <p><strong>Solution:</strong></p>
+                    <ul>
+                        <li>Comprehensive training program</li>
+                        <li>Gradual rollout with feedback loops</li>
+                        <li>24/7 support during transition</li>
+                    </ul>
+                    <p><strong>Result:</strong> 95% user satisfaction score</p>
+                </div>
+
+                <h2>Benefits & Impact</h2>
+
+                <h3>End User Benefits</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="stat-value">40%</div>
+                        <div class="stat-label">Application Response Time Faster</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="stat-value">99.94%</div>
+                        <div class="stat-label">System Availability Uptime</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Secure Remote Access</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="stat-value">Native</div>
+                        <div class="stat-label">Mobile App Support</div>
+                    </div>
+                </div>
+
+                <h3>IT Team Benefits</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="stat-value">90%</div>
+                        <div class="stat-label">Reduction in Manual Checks</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="stat-value">1</div>
+                        <div class="stat-label">Single Pane of Glass</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="stat-value">95%</div>
+                        <div class="stat-label">Automation Rate</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="stat-value">60%</div>
+                        <div class="stat-label">Faster Resolution</div>
+                    </div>
+                </div>
+
+                <h3>Financial Impact</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="stat-value">$540K</div>
+                        <div class="stat-label">Annual Cost Savings</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="stat-value">$2.1M</div>
+                        <div class="stat-label">CapEx Avoidance</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="stat-value">$300K</div>
+                        <div class="stat-label">OpEx Gains Yearly</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="stat-value">42%</div>
+                        <div class="stat-label">3-Year TCO Reduction</div>
+                    </div>
+                </div>
+
+                <h3>Operational Impact</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="stat-value">99.94%</div>
+                        <div class="stat-label">vs 99.2% Availability</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="stat-value">4 hrs</div>
+                        <div class="stat-label">DR RTO vs 24 hrs</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="stat-value">15 min</div>
+                        <div class="stat-label">Incident Response vs 2 hrs</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="stat-value">3x</div>
+                        <div class="stat-label">Scaling Capability</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Nishant Garg. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
