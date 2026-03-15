@@ -12,25 +12,23 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .project-detail-container {
-            max-width: 900px;
+        body {
+            position: relative;
+        }
+
+        .project-detail-wrapper {
+            position: relative;
+            max-width: 1000px;
             margin: 100px auto 50px;
-            padding: 0 20px;
-        }
-
-        .project-detail-header {
-            margin-bottom: 40px;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 20px;
+            gap: 30px;
         }
 
-        .project-detail-header h1 {
-            color: #667eea;
-            font-size: 2.5rem;
-            line-height: 1.2;
-            flex: 1;
+        .back-button-container {
+            flex-shrink: 0;
+            display: flex;
+            align-items: flex-start;
+            padding-top: 20px;
         }
 
         .back-link {
@@ -42,6 +40,7 @@
             font-weight: 600;
             transition: all 0.3s;
             white-space: nowrap;
+            padding: 10px;
         }
 
         .back-link:hover {
@@ -54,6 +53,28 @@
 
         .back-link:hover i {
             transform: translateX(-4px);
+        }
+
+        .project-detail-container {
+            max-width: 900px;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .project-detail-header {
+            margin-bottom: 60px;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-detail-header h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            text-align: center;
+            max-width: 700px;
         }
 
         .project-detail-content {
@@ -117,29 +138,54 @@
             font-weight: 600;
         }
 
+        .benefits-section-wrapper {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .benefits-subsection {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .benefits-subsection h3 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
-            margin: 20px 0;
-            padding: 20px;
-            background: #f8fafc;
-            border-radius: 8px;
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
         }
 
         .benefit-item {
             text-align: center;
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
         }
 
         .benefit-item .stat-value {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: #667eea;
             font-weight: 700;
         }
 
         .benefit-item .stat-label {
             color: #666;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-top: 8px;
             line-height: 1.4;
         }
@@ -163,14 +209,23 @@
 
             .project-detail-header {
                 flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+                justify-content: flex-start;
+            }
+
+            .back-link {
+                margin-bottom: 10px;
             }
 
             .project-detail-header h1 {
                 font-size: 1.8rem;
+                text-align: left;
+                max-width: 100%;
             }
 
             .benefits-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -198,17 +253,24 @@
     </nav>
 
     <main>
-        <div class="project-detail-container">
-            <div class="project-detail-header">
-                <h1>Hybrid Cloud Migration & Secure Landing Zone Deployment for Financial Enterprise</h1>
+        <div class="project-detail-wrapper">
+            <div class="back-button-container">
                 <a href="projects.html" class="back-link">
                     <i class="fas fa-arrow-left"></i> Back
                 </a>
             </div>
+            <div class="project-detail-container">
+                <div class="project-detail-header">
+                    <h1>Hybrid Cloud Migration & Secure Landing Zone Deployment</h1>
+                </div>
 
             <div class="project-detail-content">
                 <h2>Introduction</h2>
                 <p>As part of a digital transformation initiative, I led the design and deployment of a hybrid cloud infrastructure for a major enterprise client in the finance sector. The client aimed to migrate critical applications from their on-premises datacenter to Microsoft Azure, leveraging cloud scalability while maintaining robust security and compliance. This project involved a greenfield deployment of a Virtual Data Center (VDC) in Azure, executed in a phased manner to ensure minimal disruption and maximum operational continuity.</p>
+
+                <div style="text-align: center; margin: 40px 0;">
+                    <img src="images/project1.png" alt="Architecture Diagram" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                </div>
 
                 <h2>Project Description</h2>
                 <p>The solution architecture centered around a secure, scalable Azure landing zone, designed to support both public and private workloads. The landing zone comprised two distinct Virtual Networks (VNets):</p>
@@ -287,83 +349,93 @@
 
                 <h2>Benefits & Impact</h2>
 
-                <h3>End User Benefits</h3>
-                <div class="benefits-grid">
-                    <div class="benefit-item">
-                        <div class="stat-value">40%</div>
-                        <div class="stat-label">Application Response Time Faster</div>
+                <div class="benefits-section-wrapper">
+                    <div class="benefits-subsection">
+                        <h3>End User Benefits</h3>
+                        <div class="benefits-grid">
+                            <div class="benefit-item">
+                                <div class="stat-value">40%</div>
+                                <div class="stat-label">Application Response Time Faster</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="stat-value">99.94%</div>
+                                <div class="stat-label">System Availability Uptime</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="stat-value">24/7</div>
+                                <div class="stat-label">Secure Remote Access</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="stat-value">Native</div>
+                                <div class="stat-label">Mobile App Support</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="benefit-item">
-                        <div class="stat-value">99.94%</div>
-                        <div class="stat-label">System Availability Uptime</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="stat-value">24/7</div>
-                        <div class="stat-label">Secure Remote Access</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="stat-value">Native</div>
-                        <div class="stat-label">Mobile App Support</div>
-                    </div>
-                </div>
 
-                <h3>IT Team Benefits</h3>
-                <div class="benefits-grid">
-                    <div class="benefit-item">
-                        <div class="stat-value">90%</div>
-                        <div class="stat-label">Reduction in Manual Checks</div>
+                    <div class="benefits-subsection">
+                        <h3>IT Team Benefits</h3>
+                        <div class="benefits-grid">
+                            <div class="benefit-item">
+                                <div class="stat-value">90%</div>
+                                <div class="stat-label">Reduction in Manual Checks</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="stat-value">1</div>
+                                <div class="stat-label">Single Pane of Glass</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="stat-value">95%</div>
+                                <div class="stat-label">Automation Rate</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="stat-value">60%</div>
+                                <div class="stat-label">Faster Resolution</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="benefit-item">
-                        <div class="stat-value">1</div>
-                        <div class="stat-label">Single Pane of Glass</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="stat-value">95%</div>
-                        <div class="stat-label">Automation Rate</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="stat-value">60%</div>
-                        <div class="stat-label">Faster Resolution</div>
-                    </div>
-                </div>
 
-                <h3>Financial Impact</h3>
-                <div class="benefits-grid">
-                    <div class="benefit-item">
-                        <div class="stat-value">$540K</div>
-                        <div class="stat-label">Annual Cost Savings</div>
+                    <div class="benefits-subsection">
+                        <h3>Financial Impact</h3>
+                        <div class="benefits-grid">
+                            <div class="benefit-item">
+                                <div class="stat-value">$540K</div>
+                                <div class="stat-label">Annual Cost Savings</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="stat-value">$2.1M</div>
+                                <div class="stat-label">CapEx Avoidance</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="stat-value">$300K</div>
+                                <div class="stat-label">OpEx Gains Yearly</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="stat-value">42%</div>
+                                <div class="stat-label">3-Year TCO Reduction</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="benefit-item">
-                        <div class="stat-value">$2.1M</div>
-                        <div class="stat-label">CapEx Avoidance</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="stat-value">$300K</div>
-                        <div class="stat-label">OpEx Gains Yearly</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="stat-value">42%</div>
-                        <div class="stat-label">3-Year TCO Reduction</div>
-                    </div>
-                </div>
 
-                <h3>Operational Impact</h3>
-                <div class="benefits-grid">
-                    <div class="benefit-item">
-                        <div class="stat-value">99.94%</div>
-                        <div class="stat-label">vs 99.2% Availability</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="stat-value">4 hrs</div>
-                        <div class="stat-label">DR RTO vs 24 hrs</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="stat-value">15 min</div>
-                        <div class="stat-label">Incident Response vs 2 hrs</div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="stat-value">3x</div>
-                        <div class="stat-label">Scaling Capability</div>
+                    <div class="benefits-subsection">
+                        <h3>Operational Impact</h3>
+                        <div class="benefits-grid">
+                            <div class="benefit-item">
+                                <div class="stat-value">99.94%</div>
+                                <div class="stat-label">vs 99.2% Availability</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="stat-value">4 hrs</div>
+                                <div class="stat-label">DR RTO vs 24 hrs</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="stat-value">15 min</div>
+                                <div class="stat-label">Incident Response vs 2 hrs</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="stat-value">3x</div>
+                                <div class="stat-label">Scaling Capability</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
