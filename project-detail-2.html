@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Resource Provisioning Portal - Nishant Garg</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="images/NGLogo.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="images/NGLogo.png">
+    <link rel="shortcut icon" type="image/png" href="images/NGLogo.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            position: relative;
+        }
+
+        .project-detail-wrapper {
+            position: relative;
+            max-width: 1000px;
+            margin: 100px auto 50px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .back-button-container {
+            flex-shrink: 0;
+            display: flex;
+            align-items: flex-start;
+            padding-top: 20px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+            padding: 10px;
+        }
+
+        .back-link:hover {
+            gap: 12px;
+        }
+
+        .back-link i {
+            transition: transform 0.3s;
+        }
+
+        .back-link:hover i {
+            transform: translateX(-4px);
+        }
+
+        .project-detail-container {
+            max-width: 900px;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .project-detail-header {
+            margin-bottom: 60px;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-detail-header h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            text-align: center;
+            max-width: 700px;
+        }
+
+        .project-detail-content {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .project-detail-content h2 {
+            color: #764ba2;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+
+        .project-detail-content h3 {
+            color: #667eea;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .project-detail-content h4 {
+            color: #764ba2;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .project-detail-content p {
+            margin-bottom: 15px;
+        }
+
+        .project-detail-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .project-detail-content li {
+            margin-bottom: 10px;
+        }
+
+        .project-detail-content strong {
+            color: #333;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .tech-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .benefits-section-wrapper {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .benefits-subsection {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .benefits-subsection h3 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+        }
+
+        .benefit-item {
+            text-align: center;
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .benefit-item .stat-value {
+            font-size: 1.6rem;
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .benefit-item .stat-label {
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        .challenge-box {
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .challenge-box strong {
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .project-detail-wrapper {
+                flex-direction: column;
+                margin-top: 80px;
+            }
+
+            .back-button-container {
+                margin-bottom: 10px;
+            }
+
+            .project-detail-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .benefits-section-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="images/NGLogo.png" alt="Nishant Garg" title="Nishant Garg" class="nav-logo-img">
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="blogs.html" class="nav-link">Blogs</a>
+                <a href="projects.html" class="nav-link active">Projects</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="project-detail-wrapper">
+            <div class="back-button-container">
+                <a href="projects.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+            </div>
+            <div class="project-detail-container">
+                <div class="project-detail-header">
+                    <h1>Custom Resource Provisioning Portal</h1>
+                </div>
+
+                <div class="project-detail-content">
+                    <h2>Introduction</h2>
+                    <p>I led the development of a custom portal for an enterprise client, enabling users to securely log in and raise requests to provision, modify, or delete Azure resources. The portal enforced client-specific design, naming conventions, and configuration standards, ensuring compliance and operational consistency. Approval workflows were integrated, triggering resource deployment only after validation by the concerned team.</p>
+
+                    <h2>Project Description</h2>
+                    <p><strong>Requirement Gathering:</strong> Collaborated closely with the client to capture business needs, technical requirements, and compliance standards.</p>
+                    <p><strong>Team Management:</strong> Oversaw developers and infrastructure specialists, ensuring seamless integration between frontend, backend, and Azure services.</p>
+                    <p><strong>Demo & Feedback:</strong> Conducted regular demos for stakeholders, incorporating feedback to refine the portal.</p>
+
+                    <h2>Key Components & Technologies</h2>
+                    <div class="tech-stack">
+                        <span class="tech-tag">REST APIs</span>
+                        <span class="tech-tag">.NET</span>
+                        <span class="tech-tag">Service Principal Names (SPNs)</span>
+                        <span class="tech-tag">Identity & Access Management (IAM)</span>
+                        <span class="tech-tag">PowerShell</span>
+                        <span class="tech-tag">JSON</span>
+                        <span class="tech-tag">Azure</span>
+                    </div>
+
+                    <h3>Security & Access Control</h3>
+                    <p>The portal restricted direct Azure access, granting permissions only as required by organizational policy. Resource requests were processed via REST APIs, ensuring secure and auditable deployments.</p>
+
+                    <h2>Project Challenges & Solutions</h2>
+
+                    <div class="challenge-box">
+                        <strong>Challenge 1: Security & Access Control</strong>
+                        <p><strong>Problem:</strong> Preventing unauthorized Azure access while enabling self-service provisioning</p>
+                        <p><strong>Solution:</strong></p>
+                        <ul>
+                            <li>Implemented granular IAM policies</li>
+                            <li>Used SPNs for secure, automated backend access</li>
+                            <li>Approval workflows for all change requests</li>
+                        </ul>
+                        <p><strong>Result:</strong> Zero unauthorized access incidents</p>
+                    </div>
+
+                    <div class="challenge-box">
+                        <strong>Challenge 2: Compliance & Standardization</strong>
+                        <p><strong>Problem:</strong> Enforcing client-specific naming conventions and configurations</p>
+                        <p><strong>Solution:</strong></p>
+                        <ul>
+                            <li>Automated validation of requests against standards</li>
+                            <li>JSON templates for consistent resource deployment</li>
+                        </ul>
+                        <p><strong>Result:</strong> 100% compliance with client standards</p>
+                    </div>
+
+                    <div class="challenge-box">
+                        <strong>Challenge 3: Change Management & Adoption</strong>
+                        <p><strong>Problem:</strong> Ensuring user adoption and minimizing resistance</p>
+                        <p><strong>Solution:</strong></p>
+                        <ul>
+                            <li>User-friendly interface</li>
+                            <li>Comprehensive training and support</li>
+                            <li>Iterative demos and feedback loops</li>
+                        </ul>
+                        <p><strong>Result:</strong> 92% user satisfaction score</p>
+                    </div>
+
+                    <h2>Benefits & Impact</h2>
+
+                    <div class="benefits-section-wrapper">
+                        <div class="benefits-subsection">
+                            <h3>End User Benefits</h3>
+                            <div class="benefits-grid">
+                                <div class="benefit-item">
+                                    <div class="stat-value">Self-Service</div>
+                                    <div class="stat-label">Direct Azure Access Not Required</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">60%</div>
+                                    <div class="stat-label">Faster Provisioning Time</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">Granular</div>
+                                    <div class="stat-label">Secure Permission Control</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">92%</div>
+                                    <div class="stat-label">User Satisfaction Score</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="benefits-subsection">
+                            <h3>IT Team Benefits</h3>
+                            <div class="benefits-grid">
+                                <div class="benefit-item">
+                                    <div class="stat-value">80%</div>
+                                    <div class="stat-label">Reduction in Manual Checks</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">1</div>
+                                    <div class="stat-label">Centralized Management Portal</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">90%</div>
+                                    <div class="stat-label">Automation Rate</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">50%</div>
+                                    <div class="stat-label">Faster Incident Resolution</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="benefits-subsection">
+                            <h3>Financial Impact</h3>
+                            <div class="benefits-grid">
+                                <div class="benefit-item">
+                                    <div class="stat-value">$320K</div>
+                                    <div class="stat-label">Annual Cost Savings</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">$150K</div>
+                                    <div class="stat-label">Operational Efficiency Gains Yearly</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">35%</div>
+                                    <div class="stat-label">Total 3-Year TCO Reduction</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">100%</div>
+                                    <div class="stat-label">Compliance Achievement</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="benefits-subsection">
+                            <h3>Operational Impact</h3>
+                            <div class="benefits-grid">
+                                <div class="benefit-item">
+                                    <div class="stat-value">99.9%</div>
+                                    <div class="stat-label">System Availability Uptime</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">6 hrs</div>
+                                    <div class="stat-label">DR RTO vs 18 hrs</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">20 min</div>
+                                    <div class="stat-label">Security Response vs 1 hour</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">2x</div>
+                                    <div class="stat-label">Current Capacity Scaling</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Nishant Garg. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
