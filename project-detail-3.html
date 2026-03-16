@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Sequential Node Restart for HD Insight Cluster - Nishant Garg</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="images/NGLogo.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="images/NGLogo.png">
+    <link rel="shortcut icon" type="image/png" href="images/NGLogo.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            position: relative;
+        }
+
+        .project-detail-wrapper {
+            position: relative;
+            max-width: 1000px;
+            margin: 100px auto 50px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .back-button-container {
+            flex-shrink: 0;
+            display: flex;
+            align-items: flex-start;
+            padding-top: 20px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+            padding: 10px;
+        }
+
+        .back-link:hover {
+            gap: 12px;
+        }
+
+        .back-link i {
+            transition: transform 0.3s;
+        }
+
+        .back-link:hover i {
+            transform: translateX(-4px);
+        }
+
+        .project-detail-container {
+            max-width: 900px;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .project-detail-header {
+            margin-bottom: 60px;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-detail-header h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            text-align: center;
+            max-width: 700px;
+        }
+
+        .project-detail-content {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .project-detail-content h2 {
+            color: #764ba2;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+
+        .project-detail-content h3 {
+            color: #667eea;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .project-detail-content h4 {
+            color: #764ba2;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .project-detail-content p {
+            margin-bottom: 15px;
+        }
+
+        .project-detail-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .project-detail-content li {
+            margin-bottom: 10px;
+        }
+
+        .project-detail-content strong {
+            color: #333;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .tech-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .benefits-section-wrapper {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .benefits-subsection {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .benefits-subsection h3 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+        }
+
+        .benefit-item {
+            text-align: center;
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .benefit-item .stat-value {
+            font-size: 1.6rem;
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .benefit-item .stat-label {
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        .challenge-box {
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .challenge-box strong {
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .project-detail-wrapper {
+                flex-direction: column;
+                margin-top: 80px;
+            }
+
+            .back-button-container {
+                margin-bottom: 10px;
+            }
+
+            .project-detail-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .benefits-section-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="images/NGLogo.png" alt="Nishant Garg" title="Nishant Garg" class="nav-logo-img">
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="blogs.html" class="nav-link">Blogs</a>
+                <a href="projects.html" class="nav-link active">Projects</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="project-detail-wrapper">
+            <div class="back-button-container">
+                <a href="projects.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+            </div>
+            <div class="project-detail-container">
+                <div class="project-detail-header">
+                    <h1>Automated Sequential Node Restart for HD Insight Cluster</h1>
+                </div>
+
+                <div class="project-detail-content">
+                    <h2>Introduction</h2>
+                    <p>I developed an automation solution for an enterprise HD Insight cluster consisting of 2 master nodes and 20 worker nodes. The cluster was experiencing frequent job failures due to worker nodes getting stuck, requiring manual restarts multiple times a week. To address this, I created a shell script scheduled to run on the master node, sequentially restarting each worker node during periods of minimal load, ensuring uninterrupted job execution and improved cluster stability.</p>
+
+                    <h2>Project Description</h2>
+                    <p><strong>Automation:</strong> Designed a shell script to automate the sequential restart of worker nodes, minimizing downtime and manual intervention.</p>
+                    <p><strong>Scheduling:</strong> The script was scheduled to execute during low-usage windows, optimizing cluster availability and performance.</p>
+                    <p><strong>Integration:</strong> Solution was deployed on Linux-based HD Insight clusters, leveraging built-in scheduling tools for reliability.</p>
+
+                    <h2>Key Components & Technologies</h2>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Shell Script (Bash)</span>
+                        <span class="tech-tag">Linux OS</span>
+                        <span class="tech-tag">HD Insight Cluster</span>
+                        <span class="tech-tag">Scheduler (cron)</span>
+                        <span class="tech-tag">Automation</span>
+                    </div>
+
+                    <h2>Project Challenges & Solutions</h2>
+
+                    <div class="challenge-box">
+                        <strong>Challenge 1: Frequent Job Failures</strong>
+                        <p><strong>Problem:</strong> Jobs were getting stuck on worker nodes, requiring manual restarts 2-3 times per week</p>
+                        <p><strong>Solution:</strong></p>
+                        <ul>
+                            <li>Developed a shell script for automated, sequential node restarts</li>
+                            <li>Scheduled restarts during low cluster load</li>
+                        </ul>
+                        <p><strong>Result:</strong> 80% reduction in job failures</p>
+                    </div>
+
+                    <div class="challenge-box">
+                        <strong>Challenge 2: Manual Intervention & Downtime</strong>
+                        <p><strong>Problem:</strong> High operational overhead and risk of downtime during manual restarts</p>
+                        <p><strong>Solution:</strong></p>
+                        <ul>
+                            <li>Automated restart process</li>
+                            <li>Sequential approach to avoid cluster-wide downtime</li>
+                        </ul>
+                        <p><strong>Result:</strong> 90% reduction in manual intervention, 99.8% cluster uptime</p>
+                    </div>
+
+                    <div class="challenge-box">
+                        <strong>Challenge 3: Resource Optimization</strong>
+                        <p><strong>Problem:</strong> Restarting all nodes simultaneously could disrupt ongoing jobs</p>
+                        <p><strong>Solution:</strong></p>
+                        <ul>
+                            <li>Sequential restart logic to maintain job execution</li>
+                        </ul>
+                        <p><strong>Result:</strong> Zero disruption to running jobs during restarts</p>
+                    </div>
+
+                    <h2>Benefits & Impact</h2>
+
+                    <div class="benefits-section-wrapper">
+                        <div class="benefits-subsection">
+                            <h3>End User Benefits</h3>
+                            <div class="benefits-grid">
+                                <div class="benefit-item">
+                                    <div class="stat-value">80%</div>
+                                    <div class="stat-label">Fewer Job Failures</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">99.8%</div>
+                                    <div class="stat-label">Cluster Availability</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">30%</div>
+                                    <div class="stat-label">Increase in Job Throughput</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">Faster</div>
+                                    <div class="stat-label">Job Completion Times</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="benefits-subsection">
+                            <h3>IT Team Benefits</h3>
+                            <div class="benefits-grid">
+                                <div class="benefit-item">
+                                    <div class="stat-value">90%</div>
+                                    <div class="stat-label">Reduction in Manual Node Management</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">Automated</div>
+                                    <div class="stat-label">Monitoring & Tracking</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">Less Time</div>
+                                    <div class="stat-label">on Troubleshooting</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">Easy</div>
+                                    <div class="stat-label">Scheduling & Execution</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="benefits-subsection">
+                            <h3>Financial Impact</h3>
+                            <div class="benefits-grid">
+                                <div class="benefit-item">
+                                    <div class="stat-value">$60K</div>
+                                    <div class="stat-label">Annual Cost Savings</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">$25K</div>
+                                    <div class="stat-label">Operational Efficiency Gains Yearly</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">15%</div>
+                                    <div class="stat-label">TCO Reduction (3 Years)</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">Reduced</div>
+                                    <div class="stat-label">Manual Labor Costs</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="benefits-subsection">
+                            <h3>Operational Impact</h3>
+                            <div class="benefits-grid">
+                                <div class="benefit-item">
+                                    <div class="stat-value">99.8%</div>
+                                    <div class="stat-label">Uptime vs 98.5% Before</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">10 min</div>
+                                    <div class="stat-label">Automated Restart vs 1 hour Manual</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">30%</div>
+                                    <div class="stat-label">Increase in Successful Job Runs</div>
+                                </div>
+                                <div class="benefit-item">
+                                    <div class="stat-value">Scalable</div>
+                                    <div class="stat-label">to Larger Clusters</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Nishant Garg. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
