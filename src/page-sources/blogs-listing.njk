@@ -1,0 +1,88 @@
+---
+permalink: blogs/index.html
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs - Nishant Garg</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/NGLogo.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/images/NGLogo.png">
+    <link rel="shortcut icon" type="image/png" href="/images/NGLogo.png">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="/index.html">
+                    <img src="/images/NGLogo.png" alt="Nishant Garg" title="Nishant Garg" class="nav-logo-img">
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="/index.html" class="nav-link">Home</a>
+                <a href="/blogs/" class="nav-link active">Blogs</a>
+                <a href="/projects/" class="nav-link">Projects</a>
+                <a href="/contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>My Blogs</h1>
+                <p>Insights and best practices from my journey in Cloud & DevOps</p>
+            </div>
+        </section>
+
+        <section class="projects-section">
+            <div class="container">
+                <div class="projects-grid">
+                    {% for post in collections.blogPosts %}
+                    <article class="project-card">
+                        <div class="project-image">
+                            <img src="{{ post.data.image or '/images/project1.jpg' }}" alt="{{ post.data.title }}">
+                        </div>
+                        <div class="project-content">
+                            <h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+                            <p>
+                                {{ post.data.excerpt }}
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">{{ post.date | monthShort }} {{ post.date | dayNumber }}</span>
+                                <span class="tech-tag"><i class="fas fa-clock"></i> {{ post.data.readTime or "5 min read" }}</span>
+                                <span class="tech-tag"><i class="fas fa-tag"></i> {{ post.data.category or "General" }}</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="{{ post.url }}" class="btn btn-small">
+                                    <i class="fas fa-expand"></i> Read Blog
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Nishant Garg. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
