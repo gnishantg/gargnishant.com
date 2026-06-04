@@ -1,0 +1,15 @@
+{
+  "name": "gargnishant-com",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "eleventy --input=. --output=_site --serve",
+    "build": "eleventy --input=. --output=_site",
+    "clean": "rm -rf _site",
+    "validate:ga": "node scripts/validate-ga.js",
+    "sync:root": "node scripts/sync-root-html.js"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2"
+  }
+}

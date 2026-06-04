@@ -1,49 +1,69 @@
-# Nishant Garg - Portfolio Website
+# Nishant Garg Portfolio
 
-A professional portfolio website showcasing cloud and DevOps expertise, built with modern web technologies and optimized for GitHub Pages.
+This repository uses a local-first Eleventy build workflow so pages stay easy to maintain, Google Analytics is injected consistently, and blog/project child content can be authored from dedicated root folders.
 
-## 🚀 Features
+## Stack
 
-- **Responsive Design**: Fully responsive across all devices
-- **Modern UI/UX**: Clean, professional design with smooth animations
-- **Fast Loading**: Optimized for performance and SEO
-- **GitHub Pages Ready**: Configured for easy deployment
+- HTML/CSS/JavaScript
+- Eleventy static site generator
+- Font Awesome and Google Fonts
 
-## 🛠️ Technologies Used
+## Folder Guide
 
-- HTML5
-- CSS3 (Grid, Flexbox, Animations)
-- JavaScript (ES6+)
-- Font Awesome Icons
-- Google Fonts
+- `index.html`, `about.html`, `blogs.html`, `projects.html`, `contact.html`, `skills.html`: deploy-ready root HTML for GitHub Pages.
+- `src/page-sources/`: editable Eleventy source pages (for example `blogs-listing.njk`, `projects-listing.njk`) that generate root and folder listing pages.
+- `blogs/`: root-level blog source files (`*.md`).
+- `projects/`: root-level project source markdown (`*.md`) and generated project child pages such as `projects/project-detail-1.html`.
+- `src/project-sources/`: editable source templates for detailed project child pages.
+- `src/_includes/layouts/`: reusable layouts for generated markdown content pages.
+- `_site/`: build output used for local verification before commit.
 
-## 📁 Project Structure
-├── index.html # Homepage ├── about.html # About page ├── skills.html # Skills showcase ├── projects.html # Project portfolio ├── contact.html # Contact information ├── css/ │ ├── style.css # Main styles │ └── responsive.css # Responsive design ├── js/ │ └── main.js # JavaScript functionality ├── images/ # Image assets ├── assets/ # Documents and files └── README.md # Project documentation
+## Google Analytics Rule
 
-## 🚀 Deployment
+- GA4 ID: `G-P7JTD0D9B1`.
+- The Google tag is injected at build time immediately after the opening `<head>` element on every generated HTML page.
+- Do not manually paste the GA snippet into individual pages.
 
-1. Fork this repository
-2. Rename it to `your-username.github.io`
-3. Update the content with your information
-4. Enable GitHub Pages in repository settings
-5. Your site will be live at `https://your-username.github.io`
+## Local Workflow
 
-## ✏️ Customization
+1. Install dependencies:
 
-1. **Personal Information**: Update all instances of "Nishant Garg" with your name
-2. **Contact Details**: Update email, LinkedIn, and GitHub links
-3. **Profile Image**: Replace `images/profile.jpg` with your photo
-4. **Projects**: Update project information and links
-5. **Skills**: Modify skill levels and technologies
-6. **Resume**: Replace `assets/resume.pdf` with your resume
+	```bash
+	npm install
+	```
 
-## 📱 Browser Support
+2. Build the site:
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+	```bash
+	npm run build
+	```
 
-## 📄 License
+3. Validate GA placement and duplicate prevention:
 
-This project is open source and available under the [MIT License](LICENSE).
+	```bash
+	npm run validate:ga
+	```
+
+4. Run local preview:
+
+	```bash
+	npm run dev
+	```
+
+## Weekly Blogging Flow
+
+1. Add a markdown file to `blogs/`.
+2. Provide front matter fields: `title`, `date`, `excerpt`, `category`, `readTime`, `permalink`.
+3. Write content in markdown.
+4. For images, use existing asset paths like `images/...`.
+5. For videos, use either `<video>` (self-hosted) or iframe embeds.
+6. Build and validate before committing.
+
+## Root-Commit Release Flow
+
+1. Work in `feature-ga`.
+2. Edit templates in `src/page-sources/` and content in `blogs/` or `projects/`.
+3. Run local tests (`npm run build`, `npm run validate:ga`, `npm run dev`).
+4. Sync generated root pages with `npm run sync:root`.
+5. Commit source and root HTML updates after verification.
+6. Open PR and merge to `main` once approved.
