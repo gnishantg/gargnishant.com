@@ -52,7 +52,7 @@ permalink: blogs/index.html
                     {% for post in collections.blogPosts %}
                     <article class="project-card">
                         <div class="project-image">
-                            <img src="{{ post.data.image or '/images/project1.jpg' }}" alt="{{ post.data.title }}">
+                            <img src="{{ post.data.image or '/images/project1.png' }}" alt="{{ post.data.title }}">
                         </div>
                         <div class="project-content">
                             <h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
