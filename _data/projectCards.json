@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Hybrid Cloud Migration & Secure Landing Zone Deployment",
+    "image": "/images/project1.png",
+    "imageAlt": "Hybrid Cloud Migration",
+    "detailUrl": "/projects/project-detail-1.html",
+    "caseStudyUrl": "#",
+    "homeDescription": "Led the greenfield deployment of a secure, hybrid Azure environment for a financial enterprise migrating from on-premises datacenters. Designed and implemented a scalable landing zone with public and private VNets, high-availability Cisco NVAs, and seamless integration with legacy systems.",
+    "listingDescription": "Led the greenfield deployment of a secure, hybrid Azure environment for a financial enterprise migrating from on-premises datacenters. Designed and implemented a scalable landing zone with public and private VNets, high-availability Cisco NVAs, and seamless integration with legacy systems.",
+    "tech": ["Azure", "Cisco NVA", "VNet Peering", "VPN"]
+  },
+  {
+    "id": 2,
+    "title": "Custom Resource Provisioning Portal",
+    "image": "/images/project2.png",
+    "imageAlt": "Custom Resource Provisioning Portal",
+    "detailUrl": "/projects/project-detail-2.html",
+    "caseStudyUrl": "#",
+    "homeDescription": "Led the development of a secure, client-compliant portal for resource provisioning in Azure. Integrated approval workflows, granular access control, and automated deployment using REST APIs, .NET, SPNs, IAM, PowerShell, and JSON. Achieved zero unauthorized access, 100% compliance.",
+    "listingDescription": "Led the development of a secure, client-compliant portal for resource provisioning in Azure. Integrated approval workflows, granular access control, and automated deployment using REST APIs, .NET, SPNs, IAM, PowerShell, and JSON. Achieved zero unauthorized access, 100% compliance, 60% faster provisioning, and $320,000 annual cost savings.",
+    "tech": ["Azure", ".NET", "REST APIs", "PowerShell"]
+  },
+  {
+    "id": 3,
+    "title": "Automated Sequential Node Restart for HD Insight Cluster",
+    "image": "/images/project3.png",
+    "imageAlt": "Automated HD Insight Node Restart",
+    "detailUrl": "/projects/project-detail-3.html",
+    "caseStudyUrl": "#",
+    "homeDescription": "Developed a shell script to sequentially restart worker nodes in an HD Insight cluster, reducing job failures by 80% and manual intervention by 90%. Scheduled automation during low-load periods ensured 99.8% uptime and zero disruption to running jobs.",
+    "listingDescription": "Developed a shell script to sequentially restart worker nodes in an HD Insight cluster, reducing job failures by 80% and manual intervention by 90%. Scheduled automation during low-load periods ensured 99.8% uptime and zero disruption to running jobs. Achieved $60,000 annual cost savings, improved operational efficiency, and enhanced cluster reliability.",
+    "tech": ["Shell Script", "Bash", "HD Insight", "Automation"]
+  },
+  {
+    "id": 4,
+    "title": "Automated Vulnerability Management",
+    "image": "/images/project4.png",
+    "imageAlt": "Automated Vulnerability Management",
+    "detailUrl": "/projects/project-detail-4.html",
+    "caseStudyUrl": "#",
+    "homeDescription": "Designed and implemented an automated solution using Microsoft Defender, Logic Apps, and Function Apps to detect, notify, and remediate vulnerabilities. Achieved 95% faster notifications, 80% faster remediation, and 100% compliance for critical issues. Automated reminders, tracking, and enforcement reduced manual effort by 85%.",
+    "listingDescription": "Designed and implemented an automated solution using Microsoft Defender, Logic Apps, and Function Apps to detect, notify, and remediate vulnerabilities. Achieved 95% faster notifications, 80% faster remediation, and 100% compliance for critical issues. Automated reminders, tracking, and enforcement reduced manual effort by 85% and saved $70,000 annually.",
+    "tech": ["Microsoft Defender", "Logic Apps", "Function Apps", "Azure Storage"]
+  }
+]
