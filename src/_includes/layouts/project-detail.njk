@@ -1,13 +1,9 @@
----
-permalink: projects/index.html
----
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - Nishant Garg</title>
+    <title>{{ title }} - Nishant Garg</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/images/NGLogo.png">
     <link rel="icon" type="image/png" sizes="64x64" href="/images/NGLogo.png">
     <link rel="shortcut icon" type="image/png" href="/images/NGLogo.png">
@@ -16,7 +12,7 @@ permalink: projects/index.html
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="project-detail-page{% if pageClass %} {{ pageClass }}{% endif %}">
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -39,23 +35,22 @@ permalink: projects/index.html
     </nav>
 
     <main>
-        <section class="page-header">
-            <div class="container">
-                <h1>My Projects</h1>
-                <p>Explore my cloud infrastructure and DevOps automation projects</p>
+        <div class="project-detail-wrapper">
+            <div class="back-button-container">
+                <a href="/projects/" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
             </div>
-        </section>
+            <div class="project-detail-container">
+                <div class="project-detail-header">
+                    <h1>{{ heading or title }}</h1>
+                </div>
 
-        <section class="projects-section">
-            <div class="container">
-                <div class="projects-grid">
-                    {% for project in projectCards %}
-                    {% set description = project.listingDescription %}
-                    {% include "project-card.njk" %}
-                    {% endfor %}
+                <div class="project-detail-content">
+                    {{ content | safe }}
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer class="footer">
