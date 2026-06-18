@@ -40,4 +40,16 @@ for (const relativeHtmlPath of htmlFiles) {
   fs.copyFileSync(sourcePath, targetPath);
 }
 
+// Sync sitemap.xml and robots.txt to root for GitHub Pages
+const extraFiles = ["sitemap.xml", "robots.txt"];
+let extraCount = 0;
+for (const file of extraFiles) {
+  const sourcePath = path.join(SITE_DIR, file);
+  const targetPath = path.join(ROOT, file);
+  if (fs.existsSync(sourcePath)) {
+    fs.copyFileSync(sourcePath, targetPath);
+    extraCount++;
+  }
+}
+
 console.log(`Synced ${htmlFiles.length} generated HTML files from _site to repository root.`);

@@ -4,8 +4,16 @@ title: Welcome to My Engineering Blog
 date: 2026-06-02
 excerpt: A quick overview of what I will share here each week about cloud engineering and DevOps.
 category: DevOps
-readTime: 4 min read
-permalink: blogs/blog-welcome-post.html
+seoTitle: "Cloud Engineering & DevOps Blog - Nishant Garg"
+metaDescription: "Practical insights on cloud engineering, DevOps patterns, platform automation, and incident learnings from real-world experience."
+tags:
+  - devops
+  - cloud-engineering
+  - platform-engineering
+ogImage: "/images/project1.png"
+coverAlt: "Cloud engineering and DevOps blog hero image"
+readTime: 4
+permalink: /blogs/welcome-post/
 activeNav: blogs
 ---
 

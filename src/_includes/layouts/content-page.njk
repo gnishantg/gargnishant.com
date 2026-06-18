@@ -3,7 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - Nishant Garg</title>
+    <title>{{ seoTitle or title }} - Nishant Garg</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{{ metaDescription or site.description }}">
+    <meta name="robots" content="{{ robots or site.robots }}">
+    <meta name="language" content="{{ language or site.language }}">
+    {% if canonicalUrl %}
+    <link rel="canonical" href="{{ canonicalUrl }}">
+    {% else %}
+    <link rel="canonical" href="{{ site.siteUrl }}{{ page.url }}">
+    {% endif %}
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="{{ seoTitle or title }}">
+    <meta property="og:description" content="{{ metaDescription or site.description }}">
+    {% set ogImg = ogImage or site.defaultOgImage %}
+    {% if ogImg.startsWith('http') %}
+    <meta property="og:image" content="{{ ogImg }}">
+    {% else %}
+    <meta property="og:image" content="{{ site.siteUrl }}{{ ogImg }}">
+    {% endif %}
+    <meta property="og:url" content="{{ site.siteUrl }}{{ page.url }}">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="{{ site.siteName }}">
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ seoTitle or title }}">
+    <meta name="twitter:description" content="{{ metaDescription or site.description }}">
+    {% if ogImg.startsWith('http') %}
+    <meta name="twitter:image" content="{{ ogImg }}">
+    {% else %}
+    <meta name="twitter:image" content="{{ site.siteUrl }}{{ ogImg }}">
+    {% endif %}
+    <meta name="twitter:creator" content="{{ site.twitterHandle }}">
+    
+    <!-- BlogPosting JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{{ seoTitle or title }}",
+        "description": "{{ metaDescription or site.description }}",
+        "image": "{{ ogImage or site.defaultOgImage | replace('/', site.siteUrl + '/') }}",
+        "datePublished": "{{ date | htmlDateString }}",
+        {% if updated %}
+        "dateModified": "{{ updated | htmlDateString }}",
+        {% endif %}
+        "author": {
+            "@type": "Person",
+            "name": "{{ site.author }}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "{{ site.siteName }}",
+            "url": "{{ site.siteUrl }}"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ site.siteUrl }}{{ page.url }}"
+        }
+    }
+    </script>
+    
     <link rel="icon" type="image/png" sizes="32x32" href="/images/NGLogo.png">
     <link rel="icon" type="image/png" sizes="64x64" href="/images/NGLogo.png">
     <link rel="shortcut icon" type="image/png" href="/images/NGLogo.png">
