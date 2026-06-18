@@ -16,4 +16,5 @@ project-detail-4.html
 blog-welcome-post.html
 project-sample-template.html
 blogs/*.html
+blogs/**/*.html
 projects/*.html

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gargnishant.com/sitemap.xml

@@ -8,6 +8,7 @@ tech:
   - Kubernetes
   - CI/CD
 permalink: projects/project-sample-template.html
+eleventyExcludeFromCollections: true
 activeNav: projects
 ---
 

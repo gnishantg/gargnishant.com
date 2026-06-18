@@ -17,7 +17,7 @@ function buildGaTagBlock() {
 }
 
 module.exports = function(eleventyConfig) {
-  ["css", "js", "images", "assets", "CNAME"].forEach((item) => {
+  ["css", "js", "images", "assets", "CNAME", "robots.txt"].forEach((item) => {
     eleventyConfig.addPassthroughCopy(item);
   });
 
@@ -29,6 +29,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter("dayNumber", (value) => {
     const date = new Date(value);
     return String(date.getUTCDate()).padStart(2, "0");
+  });
+
+  eleventyConfig.addFilter("htmlDateString", (value) => {
+    const date = new Date(value);
+    return date.toISOString().split("T")[0];
   });
 
   eleventyConfig.addCollection("blogPosts", (collectionApi) => {
@@ -43,8 +48,17 @@ module.exports = function(eleventyConfig) {
       .sort((a, b) => a.fileSlug.localeCompare(b.fileSlug));
   });
 
+  eleventyConfig.addCollection("projectPages", (collectionApi) => {
+    return collectionApi
+      .getFilteredByGlob("./src/project-sources/project-detail-*.njk")
+      .sort((a, b) => a.fileSlug.localeCompare(b.fileSlug));
+  });
+
   eleventyConfig.addTransform("injectGoogleTag", (content, outputPath) => {
     if (!outputPath || path.extname(outputPath) !== ".html") {
+      return content;
+    }
+    if (outputPath.endsWith("sitemap.xml")) {
       return content;
     }
 
