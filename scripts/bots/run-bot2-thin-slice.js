@@ -21,6 +21,48 @@ function loadJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
+function extractFirstJsonObject(text) {
+  const input = String(text || "").trim();
+  if (!input) return null;
+
+  const start = input.indexOf("{");
+  if (start === -1) return null;
+
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+
+  for (let i = start; i < input.length; i += 1) {
+    const ch = input[i];
+
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+      } else if (ch === "\\") {
+        escaped = true;
+      } else if (ch === '"') {
+        inString = false;
+      }
+      continue;
+    }
+
+    if (ch === '"') {
+      inString = true;
+      continue;
+    }
+
+    if (ch === "{") depth += 1;
+    if (ch === "}") depth -= 1;
+
+    if (depth === 0) {
+      const candidate = input.slice(start, i + 1);
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
 function extractJsonBlock(commentBody, marker) {
   const markerIndex = commentBody.indexOf(marker);
   if (markerIndex === -1) {
@@ -28,18 +70,37 @@ function extractJsonBlock(commentBody, marker) {
   }
 
   const afterMarker = commentBody.slice(markerIndex + marker.length);
+  const candidates = [];
+
+  // Preferred format: ```json ... ``` after marker
   const jsonFenceRegex = /```json\s*([\s\S]*?)```/i;
-  const match = afterMarker.match(jsonFenceRegex);
-
-  if (!match || !match[1]) {
-    throw new Error("No JSON code fence found after marker.");
+  const jsonFenceMatch = afterMarker.match(jsonFenceRegex);
+  if (jsonFenceMatch && jsonFenceMatch[1]) {
+    candidates.push(jsonFenceMatch[1].trim());
   }
 
-  try {
-    return JSON.parse(match[1].trim());
-  } catch (error) {
-    throw new Error(`Invalid JSON in marker block: ${error.message}`);
+  // Also accept plain fenced blocks: ``` ... ``` after marker
+  const plainFenceRegex = /```\s*([\s\S]*?)```/i;
+  const plainFenceMatch = afterMarker.match(plainFenceRegex);
+  if (plainFenceMatch && plainFenceMatch[1]) {
+    candidates.push(plainFenceMatch[1].trim());
   }
+
+  // Also accept raw JSON text directly after marker
+  const rawJsonCandidate = extractFirstJsonObject(afterMarker);
+  if (rawJsonCandidate) {
+    candidates.push(rawJsonCandidate.trim());
+  }
+
+  for (const candidate of candidates) {
+    try {
+      return JSON.parse(candidate);
+    } catch (error) {
+      // try the next extraction strategy
+    }
+  }
+
+  throw new Error("Could not find valid JSON after marker. Use fenced or raw JSON.");
 }
 
 function slugify(input) {
