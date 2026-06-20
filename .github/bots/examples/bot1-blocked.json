@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "sourceIssue": "https://github.com/gnishantg/gargnishant.com/issues/129",
+    "labelMatched": "write-blog",
+    "language": "en",
+    "inputSizeChars": 4620,
+    "sourcePriority": ["attachments", "issueBody", "chatLink"],
+    "attachmentsUsed": [],
+    "chatLinkFetchStatus": {
+      "status": "failed",
+      "url": "https://chat.example.com/share/expired-link",
+      "reason": "not_found_or_expired"
+    }
+  },
+  "preprocessing": {
+    "cleanedTranscriptSummary": "Issue content mostly contains greetings, planning chatter, and generic intent with no concrete examples.",
+    "droppedNoiseCategories": ["filler", "repetition", "off_topic", "small_talk"],
+    "droppedLineCount": 58
+  },
+  "classification": {
+    "contentType": "unknown",
+    "primaryTopic": {
+      "value": "Unknown",
+      "confidence": 18
+    },
+    "problemStatement": {
+      "value": "Unknown",
+      "confidence": 21
+    },
+    "audience": {
+      "value": "general public",
+      "confidence": 42
+    }
+  },
+  "extraction": {
+    "keyTakeaways": [
+      {
+        "value": "Unknown",
+        "confidence": 15
+      }
+    ],
+    "evidenceSnippets": [],
+    "risksUnknowns": [
+      {
+        "value": "No factual transcript content available for quote extraction.",
+        "confidence": 95
+      }
+    ]
+  },
+  "handoff": {
+    "readyForWriterBot": false,
+    "blockers": [
+      "missing_primary_topic",
+      "no_evidence_snippets",
+      "low_confidence_major_fields"
+    ],
+    "warnings": [
+      "chat_link_unreadable",
+      "insufficient_signal_in_issue_body"
+    ],
+    "notesForWriter": "Blocked. Ask issue author to provide transcript text or a working accessible chat export."
+  }
+}

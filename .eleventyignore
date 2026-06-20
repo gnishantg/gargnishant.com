@@ -15,6 +15,7 @@ project-detail-3.html
 project-detail-4.html
 blog-welcome-post.html
 project-sample-template.html
+.github/**
 blogs/*.html
 blogs/**/*.html
 projects/*.html

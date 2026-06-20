@@ -6,10 +6,14 @@
     "dev": "eleventy --input=. --output=_site --serve",
     "build": "eleventy --input=. --output=_site",
     "clean": "rm -rf _site",
+    "validate:bot1": "node scripts/bots/validate-bot1-schema.js",
+    "validate:bot2": "node scripts/bots/validate-bot2-schema.js",
+    "validate:bots": "npm run validate:bot1 && npm run validate:bot2",
     "validate:ga": "node scripts/validate-ga.js",
     "sync:root": "node scripts/sync-root-html.js"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.2"
+    "@11ty/eleventy": "^3.1.2",
+    "ajv": "^8.20.0"
   }
 }

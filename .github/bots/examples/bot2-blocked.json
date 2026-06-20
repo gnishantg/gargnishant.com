@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "sourceIssue": "https://github.com/gnishantg/gargnishant.com/issues/129",
+    "inputMarker": "bot-1-output",
+    "language": "en",
+    "targetWordRange": {
+      "min": 500,
+      "max": 800
+    },
+    "wordCount": 0,
+    "contentType": "unknown",
+    "audience": "general public",
+    "primaryTopic": "Unknown"
+  },
+  "draft": {
+    "title": "",
+    "slug": "blocked",
+    "frontMatter": {
+      "title": "",
+      "date": "2026-06-20",
+      "excerpt": "",
+      "category": "unknown",
+      "layout": "layouts/content-page.njk",
+      "permalink": "/blogs/blocked/",
+      "activeNav": "blogs",
+      "image": "",
+      "ogImage": "",
+      "coverAlt": "",
+      "readTime": "0 min read",
+      "seoTitle": null,
+      "metaDescription": null,
+      "canonicalUrl": null,
+      "tags": [],
+      "updated": null
+    },
+    "markdownBody": "",
+    "sectionsPresent": {
+      "intro": false,
+      "problem": false,
+      "solution": false,
+      "examples": false,
+      "conclusion": false
+    },
+    "inlineCitationCount": 0
+  },
+  "quality": {
+    "readability": {
+      "fleschKincaidGrade": 0
+    },
+    "paragraphWarnings": [],
+    "sentenceVarietyWarnings": [],
+    "imageFetch": {
+      "provider": "unsplash",
+      "query": "Unknown",
+      "attempts": 3,
+      "status": "failed",
+      "url": "",
+      "failureReason": "all_retries_failed"
+    },
+    "imageAltSource": "none"
+  },
+  "handoff": {
+    "readyForSeoBot": false,
+    "blockers": [
+      "bot1_not_ready",
+      "unsplash_fetch_failed",
+      "insufficient_content_signal"
+    ],
+    "warnings": [
+      "manual_image_required"
+    ],
+    "notesForSeoBot": "Blocked. Ask issue author for stronger source transcript and either an image URL or image keywords."
+  }
+}

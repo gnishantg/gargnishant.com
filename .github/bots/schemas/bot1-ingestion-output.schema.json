@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gargnishant.com/schemas/bot1-ingestion-output.schema.json",
+  "title": "Bot1IngestionOutput",
+  "type": "object",
+  "required": ["meta", "preprocessing", "classification", "extraction", "handoff"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["sourceIssue", "labelMatched", "language", "inputSizeChars", "sourcePriority", "attachmentsUsed", "chatLinkFetchStatus"],
+      "properties": {
+        "sourceIssue": { "type": "string" },
+        "labelMatched": { "const": "write-blog" },
+        "language": { "const": "en" },
+        "inputSizeChars": { "type": "integer", "minimum": 0, "maximum": 50000 },
+        "sourcePriority": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "attachmentsUsed": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "chatLinkFetchStatus": {
+          "type": "object",
+          "required": ["status", "url", "reason"],
+          "properties": {
+            "status": { "enum": ["success", "failed", "skipped"] },
+            "url": { "type": "string" },
+            "reason": { "type": "string" }
+          }
+        }
+      }
+    },
+    "preprocessing": {
+      "type": "object",
+      "required": ["cleanedTranscriptSummary", "droppedNoiseCategories", "droppedLineCount"],
+      "properties": {
+        "cleanedTranscriptSummary": { "type": "string" },
+        "droppedNoiseCategories": {
+          "type": "array",
+          "items": {
+            "enum": ["filler", "repetition", "off_topic", "small_talk"]
+          }
+        },
+        "droppedLineCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "classification": {
+      "type": "object",
+      "required": ["contentType", "primaryTopic", "problemStatement", "audience"],
+      "properties": {
+        "contentType": { "enum": ["how-to", "case-study", "unknown"] },
+        "primaryTopic": { "$ref": "#/$defs/confidentValue" },
+        "problemStatement": { "$ref": "#/$defs/confidentValue" },
+        "audience": { "$ref": "#/$defs/confidentValue" }
+      }
+    },
+    "extraction": {
+      "type": "object",
+      "required": ["keyTakeaways", "evidenceSnippets", "risksUnknowns"],
+      "properties": {
+        "keyTakeaways": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/confidentValue" }
+        },
+        "evidenceSnippets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["quote", "source", "confidence"],
+            "properties": {
+              "quote": { "type": "string" },
+              "source": { "type": "string" },
+              "confidence": { "type": "integer", "minimum": 0, "maximum": 100 }
+            }
+          }
+        },
+        "risksUnknowns": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/confidentValue" }
+        }
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "required": ["readyForWriterBot", "blockers", "warnings", "notesForWriter"],
+      "properties": {
+        "readyForWriterBot": { "type": "boolean" },
+        "blockers": { "type": "array", "items": { "type": "string" } },
+        "warnings": { "type": "array", "items": { "type": "string" } },
+        "notesForWriter": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "confidentValue": {
+      "type": "object",
+      "required": ["value", "confidence"],
+      "properties": {
+        "value": { "type": "string" },
+        "confidence": { "type": "integer", "minimum": 0, "maximum": 100 }
+      }
+    }
+  }
+}

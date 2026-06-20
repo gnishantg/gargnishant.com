@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "sourceIssue": "https://github.com/gnishantg/gargnishant.com/issues/128",
+    "inputMarker": "bot-1-output",
+    "language": "en",
+    "targetWordRange": {
+      "min": 500,
+      "max": 800
+    },
+    "wordCount": 672,
+    "contentType": "how-to",
+    "audience": "general public",
+    "primaryTopic": "Using GitHub Copilot effectively in daily workflows with structured prompts"
+  },
+  "draft": {
+    "title": "How to Use GitHub Copilot Prompts That Actually Work",
+    "slug": "how-to-use-github-copilot-prompts-that-actually-work",
+    "frontMatter": {
+      "title": "How to Use GitHub Copilot Prompts That Actually Work",
+      "date": "2026-06-20",
+      "excerpt": "A practical guide to writing better prompts for GitHub Copilot with real workflow examples.",
+      "category": "how-to",
+      "layout": "layouts/content-page.njk",
+      "permalink": "/blogs/how-to-use-github-copilot-prompts-that-actually-work/",
+      "activeNav": "blogs",
+      "image": "https://images.unsplash.com/photo-1518773553398-650c184e0bb3",
+      "ogImage": "https://images.unsplash.com/photo-1518773553398-650c184e0bb3",
+      "coverAlt": "Developer writing structured prompts on a laptop",
+      "readTime": "4 min read",
+      "seoTitle": null,
+      "metaDescription": null,
+      "canonicalUrl": null,
+      "tags": [],
+      "updated": null
+    },
+    "markdownBody": "## Intro\nMost people do not get poor AI output because the model is weak. They get poor output because the prompt is vague.\n\n## Problem\nAs mentioned in the transcript, results improved only when context, constraints, and expected format were combined in a single instruction.\n\n## Solution\nStart with role, then goal, then constraints, then output shape. Keep prompts short and iterate.\n\n## Examples\nAs mentioned in the transcript, one large prompt produced generic advice, while smaller iteration rounds produced practical and testable steps.\n\n## Conclusion\nUse a repeatable prompt structure, validate outputs quickly, and keep a short feedback loop.",
+    "sectionsPresent": {
+      "intro": true,
+      "problem": true,
+      "solution": true,
+      "examples": true,
+      "conclusion": true
+    },
+    "inlineCitationCount": 2
+  },
+  "quality": {
+    "readability": {
+      "fleschKincaidGrade": 8.9
+    },
+    "paragraphWarnings": [],
+    "sentenceVarietyWarnings": [
+      "Two adjacent sentences start with imperative verbs in the solution section."
+    ],
+    "imageFetch": {
+      "provider": "unsplash",
+      "query": "Using GitHub Copilot effectively in daily workflows with structured prompts",
+      "attempts": 2,
+      "status": "success",
+      "url": "https://images.unsplash.com/photo-1518773553398-650c184e0bb3"
+    },
+    "imageAltSource": "derived_from_primary_topic"
+  },
+  "handoff": {
+    "readyForSeoBot": true,
+    "blockers": [],
+    "warnings": [
+      "sentence_variety_minor"
+    ],
+    "notesForSeoBot": "Please finalize seoTitle, metaDescription, canonicalUrl, and tags based on the generated draft."
+  }
+}

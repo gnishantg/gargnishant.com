@@ -1,0 +1,73 @@
+name: Bot 1 to Bot 2 Thin Slice
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  bot2_from_bot1_comment:
+    if: >-
+      contains(github.event.issue.labels.*.name, 'write-blog') &&
+      contains(github.event.comment.body, '<!-- bot-1-output -->')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Bot 2 output from Bot 1 marker
+        run: |
+          node scripts/bots/run-bot2-thin-slice.js \
+            --event "$GITHUB_EVENT_PATH" \
+            --output "$RUNNER_TEMP/bot2-output.json" \
+            --comment "$RUNNER_TEMP/bot2-comment.md"
+        env:
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+
+      - name: Post Bot 2 comment
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync(`${process.env.RUNNER_TEMP}/bot2-comment.md`, 'utf8');
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
+
+      - name: Post workflow failure comment
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = [
+              '**Bot 2 Result: BLOCKED (workflow error)**',
+              '',
+              '- Could not parse or validate the Bot 1 payload from this comment.',
+              '- Ensure marker `<!-- bot-1-output -->` exists and contains valid JSON in a ```json fenced block.',
+              '- Check workflow logs for exact error details.'
+            ].join('\n');
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
