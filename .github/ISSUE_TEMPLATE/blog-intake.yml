@@ -1,0 +1,48 @@
+name: Blog Intake
+about: Submit transcript content for Bot 1 ingestion.
+title: "[Blog Intake] "
+labels: ["write-blog"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to submit source material for blog generation.
+        Bot 1 will clean noise and extract a structured packet.
+
+  - type: textarea
+    id: transcript
+    attributes:
+      label: Transcript or conversation content
+      description: Paste raw conversation text here.
+      placeholder: Paste transcript content...
+    validations:
+      required: true
+
+  - type: input
+    id: chat_link
+    attributes:
+      label: Optional chat link
+      description: Optional. Bot 1 will attempt a best-effort fetch.
+      placeholder: https://...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: content_type_hint
+    attributes:
+      label: Content type hint
+      description: Optional hint for Bot 1 classification.
+      options:
+        - how-to
+        - case-study
+        - unknown
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional notes
+      description: Optional constraints, target angle, or context.
+    validations:
+      required: false

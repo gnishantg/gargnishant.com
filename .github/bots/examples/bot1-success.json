@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "sourceIssue": "https://github.com/gnishantg/gargnishant.com/issues/128",
+    "labelMatched": "write-blog",
+    "language": "en",
+    "inputSizeChars": 18420,
+    "sourcePriority": ["attachments", "issueBody", "chatLink"],
+    "attachmentsUsed": ["copilot-chat-notes.md", "usage-observations.txt"],
+    "chatLinkFetchStatus": {
+      "status": "failed",
+      "url": "https://chat.example.com/share/abc123",
+      "reason": "requires_authentication"
+    }
+  },
+  "preprocessing": {
+    "cleanedTranscriptSummary": "User discussed practical ways to use GitHub Copilot in daily workflows, compared prompt styles, and highlighted repeatable patterns that improved output quality.",
+    "droppedNoiseCategories": ["filler", "repetition", "small_talk"],
+    "droppedLineCount": 96
+  },
+  "classification": {
+    "contentType": "how-to",
+    "primaryTopic": {
+      "value": "Using GitHub Copilot effectively in daily workflows with structured prompts",
+      "confidence": 92
+    },
+    "problemStatement": {
+      "value": "People use AI tools inconsistently and get weak results because prompts are vague, context is missing, and outputs are not validated.",
+      "confidence": 89
+    },
+    "audience": {
+      "value": "general public",
+      "confidence": 81
+    }
+  },
+  "extraction": {
+    "keyTakeaways": [
+      {
+        "value": "Better results come from giving Copilot role plus goal plus constraints in one prompt.",
+        "confidence": 94
+      },
+      {
+        "value": "Short iterative prompts outperform one large prompt when refining practical outputs.",
+        "confidence": 90
+      },
+      {
+        "value": "Adding examples of desired output format reduces ambiguity and rework.",
+        "confidence": 88
+      },
+      {
+        "value": "Users should validate AI outputs against real-world constraints before acting.",
+        "confidence": 86
+      }
+    ],
+    "evidenceSnippets": [
+      {
+        "quote": "When I gave context, constraints, and expected format together, the answer quality improved immediately.",
+        "source": "attachment:copilot-chat-notes.md#L34",
+        "confidence": 93
+      },
+      {
+        "quote": "Single giant prompts produced generic advice; iterative prompts gave practical steps.",
+        "source": "attachment:usage-observations.txt#L12",
+        "confidence": 90
+      }
+    ],
+    "risksUnknowns": [
+      {
+        "value": "No quantified before and after metric for productivity gain was provided.",
+        "confidence": 84
+      }
+    ]
+  },
+  "handoff": {
+    "readyForWriterBot": true,
+    "blockers": [],
+    "warnings": ["chat_link_unreadable"],
+    "notesForWriter": "Use plain language and non-technical examples first; include one short framework for writing effective prompts."
+  }
+}

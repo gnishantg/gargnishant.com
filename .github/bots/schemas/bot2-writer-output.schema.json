@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gargnishant.com/schemas/bot2-writer-output.schema.json",
+  "title": "Bot2WriterOutput",
+  "type": "object",
+  "required": ["meta", "draft", "quality", "handoff"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "sourceIssue",
+        "inputMarker",
+        "language",
+        "targetWordRange",
+        "wordCount",
+        "contentType",
+        "audience",
+        "primaryTopic"
+      ],
+      "properties": {
+        "sourceIssue": { "type": "string" },
+        "inputMarker": { "const": "bot-1-output" },
+        "language": { "const": "en" },
+        "targetWordRange": {
+          "type": "object",
+          "required": ["min", "max"],
+          "properties": {
+            "min": { "const": 500 },
+            "max": { "const": 800 }
+          }
+        },
+        "wordCount": { "type": "integer", "minimum": 0 },
+        "contentType": { "enum": ["how-to", "case-study", "unknown"] },
+        "audience": { "type": "string" },
+        "primaryTopic": { "type": "string" }
+      }
+    },
+    "draft": {
+      "type": "object",
+      "required": [
+        "title",
+        "slug",
+        "frontMatter",
+        "markdownBody",
+        "sectionsPresent",
+        "inlineCitationCount"
+      ],
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "frontMatter": {
+          "type": "object",
+          "required": [
+            "title",
+            "date",
+            "excerpt",
+            "category",
+            "layout",
+            "permalink",
+            "activeNav",
+            "image",
+            "ogImage",
+            "coverAlt",
+            "readTime"
+          ],
+          "properties": {
+            "title": { "type": "string" },
+            "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+            "excerpt": { "type": "string" },
+            "category": { "type": "string" },
+            "layout": { "const": "layouts/content-page.njk" },
+            "permalink": { "type": "string", "pattern": "^/blogs/[a-z0-9-]+/$" },
+            "activeNav": { "const": "blogs" },
+            "image": { "type": "string" },
+            "ogImage": { "type": "string" },
+            "coverAlt": { "type": "string" },
+            "readTime": { "type": "string" },
+            "seoTitle": { "type": ["string", "null"] },
+            "metaDescription": { "type": ["string", "null"] },
+            "canonicalUrl": { "type": ["string", "null"] },
+            "tags": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "updated": { "type": ["string", "null"] }
+          },
+          "additionalProperties": true
+        },
+        "markdownBody": { "type": "string" },
+        "sectionsPresent": {
+          "type": "object",
+          "required": ["intro", "problem", "solution", "examples", "conclusion"],
+          "properties": {
+            "intro": { "type": "boolean" },
+            "problem": { "type": "boolean" },
+            "solution": { "type": "boolean" },
+            "examples": { "type": "boolean" },
+            "conclusion": { "type": "boolean" }
+          }
+        },
+        "inlineCitationCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "required": [
+        "readability",
+        "paragraphWarnings",
+        "sentenceVarietyWarnings",
+        "imageFetch",
+        "imageAltSource"
+      ],
+      "properties": {
+        "readability": {
+          "type": "object",
+          "required": ["fleschKincaidGrade"],
+          "properties": {
+            "fleschKincaidGrade": { "type": "number", "minimum": 0 }
+          }
+        },
+        "paragraphWarnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "sentenceVarietyWarnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "imageFetch": {
+          "type": "object",
+          "required": ["provider", "query", "attempts", "status", "url"],
+          "properties": {
+            "provider": { "const": "unsplash" },
+            "query": { "type": "string" },
+            "attempts": { "type": "integer", "minimum": 1, "maximum": 3 },
+            "status": { "enum": ["success", "failed"] },
+            "url": { "type": "string" },
+            "failureReason": { "type": "string" }
+          }
+        },
+        "imageAltSource": { "type": "string" }
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "required": ["readyForSeoBot", "blockers", "warnings", "notesForSeoBot"],
+      "properties": {
+        "readyForSeoBot": { "type": "boolean" },
+        "blockers": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "notesForSeoBot": { "type": "string" }
+      }
+    }
+  }
+}
