@@ -61,7 +61,8 @@ jobs:
               '**Bot 2 Result: BLOCKED (workflow error)**',
               '',
               '- Could not parse or validate the Bot 1 payload from this comment.',
-              '- Ensure marker `<!-- bot-1-output -->` exists and contains valid JSON in a ```json fenced block.',
+              '- Ensure marker <!-- bot-1-output --> exists and contains valid JSON.',
+              '- Accepted formats: raw JSON text, fenced JSON block, or plain fenced block.',
               '- Check workflow logs for exact error details.'
             ].join('\n');
 
