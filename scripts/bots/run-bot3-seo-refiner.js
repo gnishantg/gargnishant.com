@@ -9,11 +9,12 @@ function parseArgs(argv) {
   const args = {};
   for (let i = 2; i < argv.length; i += 1) {
     if (argv[i] === "--event") args.eventPath = argv[i + 1];
+    if (argv[i] === "--input") args.inputPath = argv[i + 1];
     if (argv[i] === "--output") args.outputPath = argv[i + 1];
     if (argv[i] === "--comment") args.commentPath = argv[i + 1];
   }
-  if (!args.eventPath || !args.outputPath || !args.commentPath) {
-    throw new Error("Usage: node scripts/bots/run-bot3-seo-refiner.js --event <event.json> --output <bot3.json> --comment <comment.md>");
+  if (!args.outputPath || !args.commentPath || (!args.eventPath && !args.inputPath)) {
+    throw new Error("Usage: node scripts/bots/run-bot3-seo-refiner.js (--event <event.json> | --input <bot2.json>) --output <bot3.json> --comment <comment.md>");
   }
   return args;
 }
@@ -377,12 +378,17 @@ function buildBlocked(event, bot2, blockers, warnings, notes) {
 }
 
 async function main() {
-  const { eventPath, outputPath, commentPath } = parseArgs(process.argv);
+  const { eventPath, inputPath, outputPath, commentPath } = parseArgs(process.argv);
   const root = process.cwd();
-  const event = loadJson(eventPath);
-  const commentBody = event?.comment?.body || "";
+  const event = eventPath ? loadJson(eventPath) : {};
 
-  const bot2 = extractJsonBlock(commentBody, BOT2_MARKER);
+  let bot2;
+  if (inputPath) {
+    bot2 = loadJson(inputPath);
+  } else {
+    const commentBody = event?.comment?.body || "";
+    bot2 = extractJsonBlock(commentBody, BOT2_MARKER);
+  }
 
   const ajv = new Ajv2020({ allErrors: true, strict: false });
   const bot2SchemaPath = path.join(root, ".github/bots/schemas/bot2-writer-output.schema.json");
