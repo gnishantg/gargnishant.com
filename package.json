@@ -8,7 +8,8 @@
     "clean": "rm -rf _site",
     "validate:bot1": "node scripts/bots/validate-bot1-schema.js",
     "validate:bot2": "node scripts/bots/validate-bot2-schema.js",
-    "validate:bots": "npm run validate:bot1 && npm run validate:bot2",
+    "validate:bot3": "node scripts/bots/validate-bot3-schema.js",
+    "validate:bots": "npm run validate:bot1 && npm run validate:bot2 && npm run validate:bot3",
     "validate:ga": "node scripts/validate-ga.js",
     "sync:root": "node scripts/sync-root-html.js"
   },
