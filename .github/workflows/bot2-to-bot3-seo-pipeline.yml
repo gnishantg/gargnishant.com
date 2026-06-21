@@ -2,7 +2,7 @@ name: Bot 2 to Bot 3 SEO Pipeline
 
 on:
   issue_comment:
-    types: [created, edited]
+    types: [created]
 
 permissions:
   contents: read
@@ -12,7 +12,8 @@ jobs:
   bot3_from_bot2_comment:
     if: >-
       contains(github.event.issue.labels.*.name, 'write-blog') &&
-      contains(github.event.comment.body, '<!-- bot-2-output -->')
+      contains(github.event.comment.body, '<!-- bot-2-output -->') &&
+      github.event.sender.login == 'github-actions[bot]'
     runs-on: ubuntu-latest
 
     steps:
