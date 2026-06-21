@@ -10,6 +10,35 @@
     "title": "How to Improve AI Prompting",
     "slug": "how-to-improve-ai-prompting-2",
     "permalink": "/blogs/how-to-improve-ai-prompting-2/",
+    "frontMatter": {
+      "title": "How to Improve AI Prompting",
+      "date": "2026-06-21",
+      "excerpt": "",
+      "category": "how-to",
+      "layout": "layouts/content-page.njk",
+      "permalink": "/blogs/how-to-improve-ai-prompting-2/",
+      "activeNav": "blogs",
+      "image": "",
+      "ogImage": "",
+      "coverAlt": "",
+      "readTime": "2 min read",
+      "seoTitle": "AI Prompting Guide",
+      "metaDescription": "Too short.",
+      "canonicalUrl": "http://example.com/wrong",
+      "tags": [
+        "ai",
+        "seo",
+        "automation",
+        "workflow-optimization",
+        "content-strategy"
+      ],
+      "updated": null,
+      "primaryKeyword": "ai prompting",
+      "secondaryKeywords": [
+        "prompt quality",
+        "coding assistant"
+      ]
+    },
     "markdownBody": "## Intro\nDraft text from Bot 2.",
     "finalMarkdown": "---\ntitle: \"How to Improve AI Prompting\"\npermalink: \"/blogs/how-to-improve-ai-prompting-2/\"\nseoTitle: \"AI Prompting Guide\"\nmetaDescription: \"Too short.\"\ncanonicalUrl: \"http://example.com/wrong\"\ntags: []\nupdated: null\nprimaryKeyword: \"\"\nsecondaryKeywords: []\n---\n\n## Intro\nDraft text from Bot 2."
   },

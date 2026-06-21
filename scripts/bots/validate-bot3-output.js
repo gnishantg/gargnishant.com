@@ -325,27 +325,30 @@ function buildFrontMatterBlock(frontMatter) {
 
 function rebuildFinalMarkdown(bot3) {
   const existingFrontMatter = parseFrontMatterFromMarkdown(getPath(bot3, "draft.finalMarkdown"));
+  const payloadFrontMatter = getPath(bot3, "draft.frontMatter") || {};
 
   const frontMatter = {
-    title: String(getPath(bot3, "draft.title") || existingFrontMatter.title || "").trim(),
-    date: String(existingFrontMatter.date || getPath(bot3, "draft.date") || getPath(bot3, "seo.updated") || new Date().toISOString().slice(0, 10)),
-    excerpt: String(existingFrontMatter.excerpt || getPath(bot3, "draft.excerpt") || ""),
-    category: String(existingFrontMatter.category || getPath(bot3, "draft.category") || "how-to"),
-    layout: String(existingFrontMatter.layout || getPath(bot3, "draft.layout") || "layouts/content-page.njk"),
-    permalink: String(getPath(bot3, "draft.permalink") || existingFrontMatter.permalink || ""),
-    activeNav: String(existingFrontMatter.activeNav || getPath(bot3, "draft.activeNav") || "blogs"),
-    image: String(existingFrontMatter.image || getPath(bot3, "draft.image") || ""),
-    ogImage: String(existingFrontMatter.ogImage || getPath(bot3, "draft.ogImage") || existingFrontMatter.image || getPath(bot3, "draft.image") || ""),
-    coverAlt: String(existingFrontMatter.coverAlt || getPath(bot3, "draft.coverAlt") || ""),
-    readTime: String(existingFrontMatter.readTime || getPath(bot3, "draft.readTime") || "2 min read"),
+    title: String(getPath(bot3, "draft.title") || payloadFrontMatter.title || existingFrontMatter.title || "").trim(),
+    date: String(payloadFrontMatter.date || existingFrontMatter.date || getPath(bot3, "draft.date") || getPath(bot3, "seo.updated") || new Date().toISOString().slice(0, 10)),
+    excerpt: String(payloadFrontMatter.excerpt || existingFrontMatter.excerpt || getPath(bot3, "draft.excerpt") || ""),
+    category: String(payloadFrontMatter.category || existingFrontMatter.category || getPath(bot3, "draft.category") || "how-to"),
+    layout: String(payloadFrontMatter.layout || existingFrontMatter.layout || getPath(bot3, "draft.layout") || "layouts/content-page.njk"),
+    permalink: String(getPath(bot3, "draft.permalink") || payloadFrontMatter.permalink || existingFrontMatter.permalink || ""),
+    activeNav: String(payloadFrontMatter.activeNav || existingFrontMatter.activeNav || getPath(bot3, "draft.activeNav") || "blogs"),
+    image: String(payloadFrontMatter.image || existingFrontMatter.image || getPath(bot3, "draft.image") || ""),
+    ogImage: String(payloadFrontMatter.ogImage || existingFrontMatter.ogImage || payloadFrontMatter.image || existingFrontMatter.image || getPath(bot3, "draft.ogImage") || getPath(bot3, "draft.image") || ""),
+    coverAlt: String(payloadFrontMatter.coverAlt || existingFrontMatter.coverAlt || getPath(bot3, "draft.coverAlt") || ""),
+    readTime: String(payloadFrontMatter.readTime || existingFrontMatter.readTime || getPath(bot3, "draft.readTime") || "2 min read"),
     seoTitle: String(getPath(bot3, "seo.seoTitle") || ""),
     metaDescription: String(getPath(bot3, "seo.metaDescription") || ""),
     canonicalUrl: String(getPath(bot3, "seo.canonicalUrl") || ""),
-    tags: ensureArrayOfStrings(getPath(bot3, "seo.tags") || existingFrontMatter.tags),
-    updated: String(getPath(bot3, "seo.updated") || new Date().toISOString().slice(0, 10)),
+    tags: ensureArrayOfStrings(getPath(bot3, "seo.tags") || payloadFrontMatter.tags || existingFrontMatter.tags),
+    updated: String(getPath(bot3, "seo.updated") || payloadFrontMatter.updated || new Date().toISOString().slice(0, 10)),
     primaryKeyword: String(getPath(bot3, "seo.primaryKeyword") || ""),
-    secondaryKeywords: ensureArrayOfStrings(getPath(bot3, "seo.secondaryKeywords") || existingFrontMatter.secondaryKeywords)
+    secondaryKeywords: ensureArrayOfStrings(getPath(bot3, "seo.secondaryKeywords") || payloadFrontMatter.secondaryKeywords || existingFrontMatter.secondaryKeywords)
   };
+
+  bot3.draft.frontMatter = frontMatter;
 
   const markdownBody = String(getPath(bot3, "draft.markdownBody") || "");
   bot3.draft.finalMarkdown = `${buildFrontMatterBlock(frontMatter)}\n\n${markdownBody}`;

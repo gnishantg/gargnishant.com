@@ -28,6 +28,7 @@
         "title",
         "slug",
         "permalink",
+        "frontMatter",
         "markdownBody",
         "finalMarkdown"
       ],
@@ -35,6 +36,55 @@
         "title": { "type": "string" },
         "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
         "permalink": { "type": "string", "pattern": "^/blogs/[a-z0-9-]+/$" },
+        "frontMatter": {
+          "type": "object",
+          "required": [
+            "title",
+            "date",
+            "excerpt",
+            "category",
+            "layout",
+            "permalink",
+            "activeNav",
+            "image",
+            "ogImage",
+            "coverAlt",
+            "readTime",
+            "seoTitle",
+            "metaDescription",
+            "canonicalUrl",
+            "tags",
+            "updated",
+            "primaryKeyword",
+            "secondaryKeywords"
+          ],
+          "properties": {
+            "title": { "type": "string" },
+            "date": { "type": "string" },
+            "excerpt": { "type": "string" },
+            "category": { "type": "string" },
+            "layout": { "type": "string" },
+            "permalink": { "type": "string", "pattern": "^/blogs/[a-z0-9-]+(?:-[0-9]+)?/$" },
+            "activeNav": { "type": "string" },
+            "image": { "type": "string" },
+            "ogImage": { "type": "string" },
+            "coverAlt": { "type": "string" },
+            "readTime": { "type": "string" },
+            "seoTitle": { "type": "string" },
+            "metaDescription": { "type": "string" },
+            "canonicalUrl": { "type": "string" },
+            "tags": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "updated": { "type": ["string", "null"] },
+            "primaryKeyword": { "type": "string" },
+            "secondaryKeywords": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
         "markdownBody": { "type": "string" },
         "finalMarkdown": { "type": "string" }
       }

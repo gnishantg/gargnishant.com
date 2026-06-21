@@ -328,6 +328,26 @@ function buildBlocked(event, bot2, blockers, warnings, notes) {
   const baseSlug = bot2?.draft?.slug || "blocked";
   const basePermalink = bot2?.draft?.frontMatter?.permalink || `/blogs/${baseSlug}/`;
   const body = bot2?.draft?.markdownBody || "";
+  const blockedFrontMatter = {
+    title: baseTitle,
+    date: bot2?.draft?.frontMatter?.date || new Date().toISOString().slice(0, 10),
+    excerpt: bot2?.draft?.frontMatter?.excerpt || "",
+    category: bot2?.draft?.frontMatter?.category || "how-to",
+    layout: bot2?.draft?.frontMatter?.layout || "layouts/content-page.njk",
+    permalink: basePermalink,
+    activeNav: bot2?.draft?.frontMatter?.activeNav || "blogs",
+    image: bot2?.draft?.frontMatter?.image || "",
+    ogImage: bot2?.draft?.frontMatter?.ogImage || bot2?.draft?.frontMatter?.image || "",
+    coverAlt: bot2?.draft?.frontMatter?.coverAlt || `Cover image for ${baseTitle || "blog"}`,
+    readTime: bot2?.draft?.frontMatter?.readTime || "2 min read",
+    seoTitle: bot2?.draft?.frontMatter?.seoTitle || "",
+    metaDescription: bot2?.draft?.frontMatter?.metaDescription || "",
+    canonicalUrl: bot2?.draft?.frontMatter?.canonicalUrl || "",
+    tags: bot2?.draft?.frontMatter?.tags || ["ai", "automation", "seo", "content-strategy", "workflow-optimization"],
+    updated: bot2?.draft?.frontMatter?.updated || null,
+    primaryKeyword: "",
+    secondaryKeywords: ["", ""]
+  };
 
   return {
     meta: {
@@ -341,6 +361,7 @@ function buildBlocked(event, bot2, blockers, warnings, notes) {
       title: baseTitle,
       slug: baseSlug,
       permalink: basePermalink,
+      frontMatter: blockedFrontMatter,
       markdownBody: body,
       finalMarkdown: ""
     },
@@ -522,6 +543,7 @@ async function main() {
         title: baseTitle,
         slug: collision.slug,
         permalink: finalPermalink,
+        frontMatter,
         markdownBody,
         finalMarkdown
       },
