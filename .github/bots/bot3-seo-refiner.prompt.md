@@ -7,6 +7,11 @@ Do not rewrite body content.
 ## Trigger
 Run only after valid Bot 2 output is available in issue marker `<!-- bot-2-output -->`.
 
+## Downstream Validator
+- Bot 3 output is validated in Stage 2 validator job before final QA handoff comment.
+- Validator may apply safe auto-fixes and/or approved manual overrides.
+- Manual override operations guide: `.github/bots/stage2-manual-override.md`.
+
 ## Inputs
 - `bot2Output` (required, JSON)
 - `issueMeta` (required): issue number, url, createdAt
@@ -53,6 +58,18 @@ Do not block for title/description length misses; emit warnings instead.
 
 ## Output Marker
 Workflow posts output as comment marker `<!-- bot3-seo-output -->`.
+
+## Manual Override Contract (Validator Stage)
+Allowed override fields in validator stage:
+- `seo.seoTitle`
+- `seo.metaDescription`
+- `seo.tags`
+- `seo.primaryKeyword`
+- `seo.secondaryKeywords`
+- `seo.canonicalUrl`
+- `draft.title`
+
+Disallow all other override paths.
 
 ## Output Contract
 Must conform to `.github/bots/schemas/bot3-seo-refiner-output.schema.json`.
