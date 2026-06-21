@@ -1,4 +1,4 @@
-name: Bot 1 to Bot 2 Thin Slice
+name: Bot 1 to Bot 2 Pipeline
 
 on:
   issue_comment:
@@ -19,6 +19,7 @@ jobs:
       - name: Capture start time
         id: timing
         run: echo "start_epoch=$(date +%s)" >> "$GITHUB_OUTPUT"
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -33,7 +34,7 @@ jobs:
 
       - name: Generate Bot 2 output from Bot 1 marker
         run: |
-          node scripts/bots/run-bot2-thin-slice.js \
+          node scripts/bots/run-bot2-writer.js \
             --event "$GITHUB_EVENT_PATH" \
             --output "$RUNNER_TEMP/bot2-output.json" \
             --comment "$RUNNER_TEMP/bot2-comment.md"

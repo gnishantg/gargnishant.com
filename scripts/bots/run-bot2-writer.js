@@ -12,7 +12,7 @@ function parseArgs(argv) {
     if (argv[i] === "--comment") args.commentPath = argv[i + 1];
   }
   if (!args.eventPath || !args.outputPath || !args.commentPath) {
-    throw new Error("Usage: node scripts/bots/run-bot2-thin-slice.js --event <event.json> --output <bot2.json> --comment <comment.md>");
+    throw new Error("Usage: node scripts/bots/run-bot2-writer.js --event <event.json> --output <bot2.json> --comment <comment.md>");
   }
   return args;
 }
