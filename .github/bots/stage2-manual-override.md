@@ -8,8 +8,8 @@ This file is an operations guide. It does not change workflow behavior by itself
 
 Current pipeline stages in workflow:
 - `bot2_from_bot1_comment`
-- `bot3_from_bot2_output`
-- `validate_bot3_output`
+- `bot3_refine_and_validate`
+- `validate_bot3_override`
 
 Stage 2 override is intended for the validator step after Bot 3 output exists.
 
