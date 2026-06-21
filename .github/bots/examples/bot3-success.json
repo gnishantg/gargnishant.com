@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "sourceIssue": "https://github.com/gnishantg/gargnishant.com/issues/8",
+    "inputMarker": "bot-2-output",
+    "outputMarker": "bot3-seo-output",
+    "stage": "bot3_seo_refiner",
+    "language": "en"
+  },
+  "draft": {
+    "title": "How to Use GitHub Copilot Prompts That Actually Work",
+    "slug": "how-to-use-github-copilot-prompts-that-actually-work",
+    "permalink": "/blogs/how-to-use-github-copilot-prompts-that-actually-work/",
+    "markdownBody": "## Intro: GitHub Copilot Prompts\nGitHub Copilot prompts become far more reliable when you provide role, goal, and constraints before requesting output.\n\n## Problem\nAs mentioned in the transcript, results improved when context and constraints were explicit.\n\n## Solution for GitHub Copilot Prompts\nUse role + goal + constraints + output format. Iterate quickly with short prompts.\n\n## Examples\nAs mentioned in the transcript, one-shot prompts were generic while iterative prompts were practical.\n\n## Conclusion\nUse repeatable structure and validate outputs before execution.",
+    "finalMarkdown": "---\ntitle: \"How to Use GitHub Copilot Prompts That Actually Work\"\ndate: 2026-06-21\nexcerpt: \"A practical guide to writing better prompts for GitHub Copilot with repeatable workflow patterns.\"\ncategory: \"how-to\"\nlayout: \"layouts/content-page.njk\"\npermalink: \"/blogs/how-to-use-github-copilot-prompts-that-actually-work/\"\nactiveNav: \"blogs\"\nimage: \"https://images.unsplash.com/photo-1518773553398-650c184e0bb3\"\nogImage: \"https://images.unsplash.com/photo-1518773553398-650c184e0bb3\"\ncoverAlt: \"Developer writing structured prompts on a laptop\"\nreadTime: \"4 min read\"\nseoTitle: \"GitHub Copilot Prompt Guide for Better Results\"\nmetaDescription: \"Use GitHub Copilot prompts with a repeatable framework to get clearer outputs, reduce rework, and improve coding productivity across daily developer workflows.\"\ncanonicalUrl: \"https://gargnishant.com/blogs/how-to-use-github-copilot-prompts-that-actually-work/\"\ntags:\n  - ai\n  - github-copilot\n  - prompt-engineering\n  - developer-productivity\n  - workflow-optimization\n  - software-engineering\nupdated: 2026-06-21\nprimaryKeyword: \"github copilot prompts\"\nsecondaryKeywords:\n  - \"prompt engineering\"\n  - \"developer productivity\"\n  - \"ai coding workflow\"\n---\n\n## Intro: GitHub Copilot Prompts\nGitHub Copilot prompts become far more reliable when you provide role, goal, and constraints before requesting output.\n\n## Problem\nAs mentioned in the transcript, results improved when context and constraints were explicit.\n\n## Solution for GitHub Copilot Prompts\nUse role + goal + constraints + output format. Iterate quickly with short prompts.\n\n## Examples\nAs mentioned in the transcript, one-shot prompts were generic while iterative prompts were practical.\n\n## Conclusion\nUse repeatable structure and validate outputs before execution."
+  },
+  "seo": {
+    "seoTitle": "GitHub Copilot Prompt Guide for Better Results",
+    "metaDescription": "Use GitHub Copilot prompts with a repeatable framework to get clearer outputs, reduce rework, and improve coding productivity across daily developer workflows.",
+    "canonicalUrl": "https://gargnishant.com/blogs/how-to-use-github-copilot-prompts-that-actually-work/",
+    "tags": [
+      "ai",
+      "github-copilot",
+      "prompt-engineering",
+      "developer-productivity",
+      "workflow-optimization",
+      "software-engineering"
+    ],
+    "updated": "2026-06-21",
+    "primaryKeyword": "github copilot prompts",
+    "secondaryKeywords": [
+      "prompt engineering",
+      "developer productivity",
+      "ai coding workflow"
+    ]
+  },
+  "guards": {
+    "duplicateCheck": {
+      "scope": "blogs/*.md",
+      "titleDuplicate": false,
+      "metaDescriptionDuplicate": false,
+      "matchedFiles": []
+    },
+    "slugCollisionCheck": {
+      "basePermalink": "/blogs/how-to-use-github-copilot-prompts-that-actually-work/",
+      "finalPermalink": "/blogs/how-to-use-github-copilot-prompts-that-actually-work/",
+      "collisionDetected": false,
+      "suffixApplied": null
+    },
+    "warnings": []
+  },
+  "handoff": {
+    "readyForQaBot": true,
+    "blockers": [],
+    "warnings": [],
+    "notesForQaBot": "SEO fields finalized; body unchanged from Bot 2; canonical is self-referential and valid."
+  }
+}

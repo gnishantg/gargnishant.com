@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gargnishant.com/schemas/bot3-seo-refiner-output.schema.json",
+  "title": "Bot3SeoRefinerOutput",
+  "type": "object",
+  "required": ["meta", "draft", "seo", "guards", "handoff"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "sourceIssue",
+        "inputMarker",
+        "outputMarker",
+        "stage",
+        "language"
+      ],
+      "properties": {
+        "sourceIssue": { "type": "string" },
+        "inputMarker": { "const": "bot-2-output" },
+        "outputMarker": { "const": "bot3-seo-output" },
+        "stage": { "const": "bot3_seo_refiner" },
+        "language": { "const": "en" }
+      }
+    },
+    "draft": {
+      "type": "object",
+      "required": [
+        "title",
+        "slug",
+        "permalink",
+        "markdownBody",
+        "finalMarkdown"
+      ],
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "permalink": { "type": "string", "pattern": "^/blogs/[a-z0-9-]+/$" },
+        "markdownBody": { "type": "string" },
+        "finalMarkdown": { "type": "string" }
+      }
+    },
+    "seo": {
+      "type": "object",
+      "required": [
+        "seoTitle",
+        "metaDescription",
+        "canonicalUrl",
+        "tags",
+        "updated",
+        "primaryKeyword",
+        "secondaryKeywords"
+      ],
+      "properties": {
+        "seoTitle": { "type": "string", "minLength": 1 },
+        "metaDescription": { "type": "string", "minLength": 1 },
+        "canonicalUrl": { "type": "string", "minLength": 1 },
+        "tags": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 8,
+          "items": { "type": "string" }
+        },
+        "updated": {
+          "type": ["string", "null"],
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "primaryKeyword": { "type": "string", "minLength": 1 },
+        "secondaryKeywords": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "guards": {
+      "type": "object",
+      "required": ["duplicateCheck", "slugCollisionCheck", "warnings"],
+      "properties": {
+        "duplicateCheck": {
+          "type": "object",
+          "required": ["scope", "titleDuplicate", "metaDescriptionDuplicate", "matchedFiles"],
+          "properties": {
+            "scope": { "const": "blogs/*.md" },
+            "titleDuplicate": { "type": "boolean" },
+            "metaDescriptionDuplicate": { "type": "boolean" },
+            "matchedFiles": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "slugCollisionCheck": {
+          "type": "object",
+          "required": ["basePermalink", "finalPermalink", "collisionDetected", "suffixApplied"],
+          "properties": {
+            "basePermalink": { "type": "string", "pattern": "^/blogs/[a-z0-9-]+/$" },
+            "finalPermalink": { "type": "string", "pattern": "^/blogs/[a-z0-9-]+(?:-[0-9]+)?/$" },
+            "collisionDetected": { "type": "boolean" },
+            "suffixApplied": { "type": ["integer", "null"], "minimum": 2 }
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "required": ["readyForQaBot", "blockers", "warnings", "notesForQaBot"],
+      "properties": {
+        "readyForQaBot": { "type": "boolean" },
+        "blockers": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "notesForQaBot": { "type": "string" }
+      }
+    }
+  }
+}

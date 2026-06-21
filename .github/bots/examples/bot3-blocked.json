@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "sourceIssue": "https://github.com/gnishantg/gargnishant.com/issues/9",
+    "inputMarker": "bot-2-output",
+    "outputMarker": "bot3-seo-output",
+    "stage": "bot3_seo_refiner",
+    "language": "en"
+  },
+  "draft": {
+    "title": "How to Improve AI Prompting",
+    "slug": "how-to-improve-ai-prompting-2",
+    "permalink": "/blogs/how-to-improve-ai-prompting-2/",
+    "markdownBody": "## Intro\nDraft text from Bot 2.",
+    "finalMarkdown": "---\ntitle: \"How to Improve AI Prompting\"\npermalink: \"/blogs/how-to-improve-ai-prompting-2/\"\nseoTitle: \"AI Prompting Guide\"\nmetaDescription: \"Too short.\"\ncanonicalUrl: \"http://example.com/wrong\"\ntags: []\nupdated: null\nprimaryKeyword: \"\"\nsecondaryKeywords: []\n---\n\n## Intro\nDraft text from Bot 2."
+  },
+  "seo": {
+    "seoTitle": "AI Prompting Guide",
+    "metaDescription": "Too short.",
+    "canonicalUrl": "http://example.com/wrong",
+    "tags": [
+      "ai",
+      "seo",
+      "automation",
+      "workflow-optimization",
+      "content-strategy"
+    ],
+    "updated": null,
+    "primaryKeyword": "ai prompting",
+    "secondaryKeywords": [
+      "prompt quality",
+      "coding assistant"
+    ]
+  },
+  "guards": {
+    "duplicateCheck": {
+      "scope": "blogs/*.md",
+      "titleDuplicate": true,
+      "metaDescriptionDuplicate": false,
+      "matchedFiles": [
+        "blogs/existing-ai-prompting.md"
+      ]
+    },
+    "slugCollisionCheck": {
+      "basePermalink": "/blogs/how-to-improve-ai-prompting/",
+      "finalPermalink": "/blogs/how-to-improve-ai-prompting-2/",
+      "collisionDetected": true,
+      "suffixApplied": 2
+    },
+    "warnings": [
+      "meta_description_outside_ideal_range",
+      "title_duplicate_detected",
+      "slug_collision_auto_suffix",
+      "keyword_missing_in_first_100_words",
+      "keyword_missing_in_headings",
+      "keyword_missing_in_meta_description"
+    ]
+  },
+  "handoff": {
+    "readyForQaBot": false,
+    "blockers": [
+      "invalid_canonical_url"
+    ],
+    "warnings": [
+      "meta_description_outside_ideal_range",
+      "title_duplicate_detected",
+      "slug_collision_auto_suffix",
+      "keyword_missing_in_first_100_words",
+      "keyword_missing_in_headings",
+      "keyword_missing_in_meta_description"
+    ],
+    "notesForQaBot": "Blocked due to canonical URL not matching required site domain; fix canonical and rerun Bot 3."
+  }
+}
