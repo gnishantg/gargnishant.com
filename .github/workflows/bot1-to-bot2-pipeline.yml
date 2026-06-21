@@ -2,7 +2,7 @@ name: Bot 1 to Bot 2 Pipeline
 
 on:
   issue_comment:
-    types: [created, edited]
+    types: [created]
 
 permissions:
   contents: read
@@ -12,7 +12,8 @@ jobs:
   bot2_from_bot1_comment:
     if: >-
       contains(github.event.issue.labels.*.name, 'write-blog') &&
-      contains(github.event.comment.body, '<!-- bot-1-output -->')
+      contains(github.event.comment.body, '<!-- bot-1-output -->') &&
+      github.event.sender.login != 'github-actions[bot]'
     runs-on: ubuntu-latest
 
     steps:
