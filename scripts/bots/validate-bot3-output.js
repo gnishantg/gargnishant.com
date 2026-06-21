@@ -252,6 +252,47 @@ function validateKeywordPlacement(bot3, warnings, blockers) {
   }
 }
 
+function parseFrontMatterFromMarkdown(markdown) {
+  const content = String(markdown || "");
+  const match = content.match(/^---\n([\s\S]*?)\n---/);
+  if (!match) return {};
+
+  const out = {};
+  const lines = match[1].split("\n");
+  let currentListKey = null;
+
+  for (const line of lines) {
+    if (!line.trim()) continue;
+
+    const listItemMatch = line.match(/^\s*-\s+"?(.*?)"?\s*$/);
+    if (listItemMatch && currentListKey) {
+      out[currentListKey] = out[currentListKey] || [];
+      out[currentListKey].push(listItemMatch[1]);
+      continue;
+    }
+
+    const keyValueMatch = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
+    if (!keyValueMatch) {
+      currentListKey = null;
+      continue;
+    }
+
+    const key = keyValueMatch[1];
+    const raw = keyValueMatch[2] || "";
+
+    if (raw.trim() === "") {
+      currentListKey = key;
+      out[key] = out[key] || [];
+      continue;
+    }
+
+    currentListKey = null;
+    out[key] = raw.replace(/^"|"$/g, "").trim();
+  }
+
+  return out;
+}
+
 function buildFrontMatterBlock(frontMatter) {
   const tagsYaml = (frontMatter.tags || []).map((t) => `  - \"${t}\"`).join("\n");
   const secondaryYaml = (frontMatter.secondaryKeywords || []).map((k) => `  - \"${k}\"`).join("\n");
@@ -283,25 +324,27 @@ function buildFrontMatterBlock(frontMatter) {
 }
 
 function rebuildFinalMarkdown(bot3) {
+  const existingFrontMatter = parseFrontMatterFromMarkdown(getPath(bot3, "draft.finalMarkdown"));
+
   const frontMatter = {
-    title: String(bot3?.draft?.title || "").trim(),
-    date: String(getPath(bot3, "draft.date") || getPath(bot3, "seo.updated") || new Date().toISOString().slice(0, 10)),
-    excerpt: String(getPath(bot3, "draft.excerpt") || ""),
-    category: String(getPath(bot3, "draft.category") || "how-to"),
-    layout: String(getPath(bot3, "draft.layout") || "layouts/content-page.njk"),
-    permalink: String(getPath(bot3, "draft.permalink") || ""),
-    activeNav: String(getPath(bot3, "draft.activeNav") || "blogs"),
-    image: String(getPath(bot3, "draft.image") || ""),
-    ogImage: String(getPath(bot3, "draft.ogImage") || getPath(bot3, "draft.image") || ""),
-    coverAlt: String(getPath(bot3, "draft.coverAlt") || ""),
-    readTime: String(getPath(bot3, "draft.readTime") || "2 min read"),
+    title: String(getPath(bot3, "draft.title") || existingFrontMatter.title || "").trim(),
+    date: String(existingFrontMatter.date || getPath(bot3, "draft.date") || getPath(bot3, "seo.updated") || new Date().toISOString().slice(0, 10)),
+    excerpt: String(existingFrontMatter.excerpt || getPath(bot3, "draft.excerpt") || ""),
+    category: String(existingFrontMatter.category || getPath(bot3, "draft.category") || "how-to"),
+    layout: String(existingFrontMatter.layout || getPath(bot3, "draft.layout") || "layouts/content-page.njk"),
+    permalink: String(getPath(bot3, "draft.permalink") || existingFrontMatter.permalink || ""),
+    activeNav: String(existingFrontMatter.activeNav || getPath(bot3, "draft.activeNav") || "blogs"),
+    image: String(existingFrontMatter.image || getPath(bot3, "draft.image") || ""),
+    ogImage: String(existingFrontMatter.ogImage || getPath(bot3, "draft.ogImage") || existingFrontMatter.image || getPath(bot3, "draft.image") || ""),
+    coverAlt: String(existingFrontMatter.coverAlt || getPath(bot3, "draft.coverAlt") || ""),
+    readTime: String(existingFrontMatter.readTime || getPath(bot3, "draft.readTime") || "2 min read"),
     seoTitle: String(getPath(bot3, "seo.seoTitle") || ""),
     metaDescription: String(getPath(bot3, "seo.metaDescription") || ""),
     canonicalUrl: String(getPath(bot3, "seo.canonicalUrl") || ""),
-    tags: ensureArrayOfStrings(getPath(bot3, "seo.tags")),
+    tags: ensureArrayOfStrings(getPath(bot3, "seo.tags") || existingFrontMatter.tags),
     updated: String(getPath(bot3, "seo.updated") || new Date().toISOString().slice(0, 10)),
     primaryKeyword: String(getPath(bot3, "seo.primaryKeyword") || ""),
-    secondaryKeywords: ensureArrayOfStrings(getPath(bot3, "seo.secondaryKeywords"))
+    secondaryKeywords: ensureArrayOfStrings(getPath(bot3, "seo.secondaryKeywords") || existingFrontMatter.secondaryKeywords)
   };
 
   const markdownBody = String(getPath(bot3, "draft.markdownBody") || "");
