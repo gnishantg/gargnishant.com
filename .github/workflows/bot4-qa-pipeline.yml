@@ -86,7 +86,7 @@ jobs:
 
       - name: Post Bot 4 status comment
         if: always()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           START_EPOCH: ${{ steps.timing.outputs.start_epoch }}
         with:
@@ -188,7 +188,7 @@ jobs:
 
       - name: Create or update PR
         if: steps.gate.outcome == 'success' && steps.gate.outputs.skip_reason == 'none'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           BRANCH_NAME: ${{ steps.bot4_meta.outputs.branch_name }}
           PR_TITLE: ${{ steps.bot4_meta.outputs.pr_title }}
@@ -216,31 +216,54 @@ jobs:
               '- Merge policy: manual only'
             ].join('\n');
 
-            if (prs.length > 0) {
-              await github.rest.pulls.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: prs[0].number,
-                title,
-                body
-              });
-              core.info(`Updated PR #${prs[0].number}`);
-            } else {
-              const created = await github.rest.pulls.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title,
-                head: branch,
-                base: 'main',
-                body,
-                draft: false
-              });
-              core.info(`Created PR #${created.data.number}`);
+            try {
+              if (prs.length > 0) {
+                await github.rest.pulls.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: prs[0].number,
+                  title,
+                  body
+                });
+                core.info(`Updated PR #${prs[0].number}`);
+              } else {
+                const created = await github.rest.pulls.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title,
+                  head: branch,
+                  base: 'main',
+                  body,
+                  draft: false
+                });
+                core.info(`Created PR #${created.data.number}`);
+              }
+            } catch (error) {
+              if (error && Number(error.status) === 403) {
+                core.warning('PR create/update blocked by repository Actions permissions.');
+                const warnBody = [
+                  '**Bot 4 Result: READY but PR creation blocked by permissions**',
+                  '',
+                  `- Branch prepared: ${branch}`,
+                  `- Expected PR title: ${title}`,
+                  '- Repository Actions setting likely blocks PR creation by workflow token.',
+                  '- Verify repo settings: Actions workflow permissions = Read and write, and allow Actions to create/approve PRs.'
+                ].join('\n');
+
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body: warnBody
+                });
+                return;
+              }
+              throw error;
             }
 
       - name: Post Bot 4 workflow failure comment
         if: failure()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           START_EPOCH: ${{ steps.timing.outputs.start_epoch }}
         with:

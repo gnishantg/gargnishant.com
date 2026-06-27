@@ -1,0 +1,7 @@
+# Default owner for all files
+* @gnishantg
+
+# Require owner review for automation and workflow code
+.github/workflows/* @gnishantg
+scripts/bots/* @gnishantg
+.github/bots/* @gnishantg
