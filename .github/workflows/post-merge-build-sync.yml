@@ -1,0 +1,64 @@
+name: Post-Merge Build Sync
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: post-merge-build-sync-main
+  cancel-in-progress: false
+
+jobs:
+  sync_after_bot4_merge:
+    if: >-
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'bot4/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Validate GA
+        run: npm run validate:ga
+
+      - name: Sync generated HTML to root
+        run: npm run sync:root
+
+      - name: Commit synced output if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No sync changes to commit."
+            exit 0
+          fi
+
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No staged changes after add."
+            exit 0
+          fi
+
+          git commit -m "post-merge: sync generated site after Bot4 PR #${{ github.event.pull_request.number }}"
+          git push origin HEAD:main
