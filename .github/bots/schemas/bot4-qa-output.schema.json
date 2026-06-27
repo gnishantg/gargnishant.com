@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gargnishant.com/schemas/bot4-qa-output.schema.json",
+  "title": "Bot4QaPrepOutput",
+  "type": "object",
+  "required": ["meta", "qa", "artifact", "handoff"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "sourceIssue",
+        "issueNumber",
+        "inputMarker",
+        "outputMarker",
+        "stage",
+        "language"
+      ],
+      "properties": {
+        "sourceIssue": { "type": "string" },
+        "issueNumber": { "type": "integer", "minimum": 1 },
+        "inputMarker": { "const": "bot3-seo-output" },
+        "outputMarker": { "const": "bot4-qa-output" },
+        "stage": { "const": "bot4_qa_prep" },
+        "language": { "const": "en" }
+      }
+    },
+    "qa": {
+      "type": "object",
+      "required": ["frontMatter", "markdown", "links", "build", "accessibility"],
+      "properties": {
+        "frontMatter": {
+          "type": "object",
+          "required": ["malformed", "missingRequiredFields", "canonicalMatchesPermalink"],
+          "properties": {
+            "malformed": { "type": "boolean" },
+            "missingRequiredFields": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "canonicalMatchesPermalink": { "type": "boolean" }
+          }
+        },
+        "markdown": {
+          "type": "object",
+          "required": ["missingBody", "headingCount", "longParagraphs"],
+          "properties": {
+            "missingBody": { "type": "boolean" },
+            "headingCount": { "type": "integer", "minimum": 0 },
+            "longParagraphs": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "links": {
+          "type": "object",
+          "required": ["checkedCount", "warnings"],
+          "properties": {
+            "checkedCount": { "type": "integer", "minimum": 0 },
+            "warnings": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "build": {
+          "type": "object",
+          "required": ["attempted", "passed", "exitCode"],
+          "properties": {
+            "attempted": { "type": "boolean" },
+            "passed": { "type": "boolean" },
+            "exitCode": { "type": ["integer", "null"] }
+          }
+        },
+        "accessibility": {
+          "type": "object",
+          "required": ["missingCoverAlt"],
+          "properties": {
+            "missingCoverAlt": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["postTitle", "slug", "postFilePath", "branchName", "prTitle", "finalMarkdown"],
+      "properties": {
+        "postTitle": { "type": "string" },
+        "slug": { "type": "string" },
+        "postFilePath": { "type": "string" },
+        "branchName": { "type": "string" },
+        "prTitle": { "type": "string" },
+        "finalMarkdown": { "type": "string" }
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "required": ["prerequisiteMissing", "readyForPr", "blockers", "warnings", "notesForHuman"],
+      "properties": {
+        "prerequisiteMissing": { "type": "boolean" },
+        "readyForPr": { "type": "boolean" },
+        "blockers": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "notesForHuman": { "type": "string" }
+      }
+    }
+  }
+}

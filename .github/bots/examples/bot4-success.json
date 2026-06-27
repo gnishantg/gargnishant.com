@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "sourceIssue": "https://github.com/gnishantg/gargnishant.com/issues/8",
+    "issueNumber": 8,
+    "inputMarker": "bot3-seo-output",
+    "outputMarker": "bot4-qa-output",
+    "stage": "bot4_qa_prep",
+    "language": "en"
+  },
+  "qa": {
+    "frontMatter": {
+      "malformed": false,
+      "missingRequiredFields": [],
+      "canonicalMatchesPermalink": true
+    },
+    "markdown": {
+      "missingBody": false,
+      "headingCount": 5,
+      "longParagraphs": 0
+    },
+    "links": {
+      "checkedCount": 2,
+      "warnings": []
+    },
+    "build": {
+      "attempted": true,
+      "passed": true,
+      "exitCode": 0
+    },
+    "accessibility": {
+      "missingCoverAlt": false
+    }
+  },
+  "artifact": {
+    "postTitle": "How to Use GitHub Copilot Prompts That Actually Work",
+    "slug": "how-to-use-github-copilot-prompts-that-actually-work",
+    "postFilePath": "blogs/2026-06-21-how-to-use-github-copilot-prompts-that-actually-work.md",
+    "branchName": "bot4/issue-8-how-to-use-github-copilot-prompts-that-actually-work",
+    "prTitle": "Bot4 QA: How to Use GitHub Copilot Prompts That Actually Work (issue #8)",
+    "finalMarkdown": "---\ntitle: \"How to Use GitHub Copilot Prompts That Actually Work\"\n---\n\n## Intro\nStructured prompting improves output quality."
+  },
+  "handoff": {
+    "prerequisiteMissing": false,
+    "readyForPr": true,
+    "blockers": [],
+    "warnings": [],
+    "notesForHuman": "Bot 4 checks passed. Branch and PR can be created or updated for human review."
+  }
+}

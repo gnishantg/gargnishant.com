@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "sourceIssue": "https://github.com/gnishantg/gargnishant.com/issues/9",
+    "issueNumber": 9,
+    "inputMarker": "bot3-seo-output",
+    "outputMarker": "bot4-qa-output",
+    "stage": "bot4_qa_prep",
+    "language": "en"
+  },
+  "qa": {
+    "frontMatter": {
+      "malformed": false,
+      "missingRequiredFields": [],
+      "canonicalMatchesPermalink": true
+    },
+    "markdown": {
+      "missingBody": false,
+      "headingCount": 0,
+      "longParagraphs": 0
+    },
+    "links": {
+      "checkedCount": 0,
+      "warnings": []
+    },
+    "build": {
+      "attempted": false,
+      "passed": false,
+      "exitCode": null
+    },
+    "accessibility": {
+      "missingCoverAlt": false
+    }
+  },
+  "artifact": {
+    "postTitle": "",
+    "slug": "",
+    "postFilePath": "",
+    "branchName": "",
+    "prTitle": "",
+    "finalMarkdown": ""
+  },
+  "handoff": {
+    "prerequisiteMissing": true,
+    "readyForPr": false,
+    "blockers": [],
+    "warnings": [
+      "missing_bot3_output_prerequisite"
+    ],
+    "notesForHuman": "Bot 4 skipped because no prior bot3-seo-output comment was found on this issue."
+  }
+}
