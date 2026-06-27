@@ -16,8 +16,12 @@ concurrency:
 jobs:
   sync_after_bot4_merge:
     if: >-
-      github.event.pull_request.merged == true &&
-      startsWith(github.event.pull_request.head.ref, 'bot4/')
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'pull_request' &&
+        github.event.pull_request.merged == true &&
+        startsWith(github.event.pull_request.head.ref, 'bot4/')
+      )
     runs-on: ubuntu-latest
 
     steps:
@@ -61,5 +65,11 @@ jobs:
             exit 0
           fi
 
-          git commit -m "post-merge: sync generated site after Bot4 PR #${{ github.event.pull_request.number }}"
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            COMMIT_MSG="post-merge: sync generated site after Bot4 PR #${{ github.event.pull_request.number }}"
+          else
+            COMMIT_MSG="manual: sync generated site from workflow_dispatch"
+          fi
+
+          git commit -m "$COMMIT_MSG"
           git push origin HEAD:main
