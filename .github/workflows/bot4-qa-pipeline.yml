@@ -160,6 +160,20 @@ jobs:
 
           BRANCH="${{ steps.bot4_meta.outputs.branch_name }}"
           FILE_PATH="${{ steps.bot4_meta.outputs.post_file_path }}"
+          MARKDOWN_TMP="$RUNNER_TEMP/bot4-final-markdown.md"
+
+          node <<'NODE'
+          const fs = require('fs');
+
+          const payload = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/bot4-output.json', 'utf8'));
+          const finalMarkdown = String(payload?.artifact?.finalMarkdown || '');
+          fs.writeFileSync(process.env.RUNNER_TEMP + '/bot4-final-markdown.md', `${finalMarkdown}\n`);
+          NODE
+
+          # If the generated file is untracked in the current checkout, remove it before branch switch.
+          if [[ -f "$FILE_PATH" ]] && ! git ls-files --error-unmatch "$FILE_PATH" >/dev/null 2>&1; then
+            rm -f "$FILE_PATH"
+          fi
 
           git fetch origin "$BRANCH" || true
           if git show-ref --verify --quiet "refs/remotes/origin/$BRANCH"; then
@@ -167,6 +181,9 @@ jobs:
           else
             git checkout -B "$BRANCH"
           fi
+
+          mkdir -p "$(dirname "$FILE_PATH")"
+          cp "$MARKDOWN_TMP" "$FILE_PATH"
 
           git add "$FILE_PATH"
           if git diff --cached --quiet; then
