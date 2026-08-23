@@ -41,6 +41,12 @@ function buildComment(output) {
   return [MARKER, "", headline, "", `- Model: ${MODEL}`, `- Input characters: ${output.meta.inputSizeChars}`, `- Ready for Bot 2: ${output.handoff.readyForWriterBot}`, "", "```json", JSON.stringify(output, null, 2), "```", ""].join("\n");
 }
 
+function validationErrors(validate, output) {
+  return (validate(output), validate.errors || [])
+    .map((error) => `${error.instancePath || "/"}: ${error.message}`)
+    .join("; ");
+}
+
 async function main() {
   const { eventPath, outputPath, commentPath } = parseArgs(process.argv);
   const root = process.cwd();
@@ -53,11 +59,12 @@ async function main() {
     "Each confident value must include a confidence integer from 0 to 100.",
     "Evidence quotes must be exact or near-exact excerpts from the issue body and identify their source.",
     "Set readyForWriterBot false when the primary topic, evidence, or major fields are missing or low confidence.",
-    "The JSON must match the Bot1IngestionOutput schema in .github/bots/schemas/bot1-ingestion-output.schema.json."
+    "The top-level JSON object must contain exactly these sections: meta, preprocessing, classification, extraction, and handoff.",
+    "Include every required nested field from the Bot1IngestionOutput schema in .github/bots/schemas/bot1-ingestion-output.schema.json."
   ].join("\n");
   const user = JSON.stringify({ issue: input, sourcePriority: ["attachments", "issue body", "chat link"] });
   const result = await completeJson({ model: MODEL, system, user, maxTokens: 3000 });
-  const output = result.data;
+  let output = result.data;
   output.meta = {
     ...(output.meta || {}),
     sourceIssue: input.url,
@@ -73,8 +80,24 @@ async function main() {
   const schema = loadJson(path.join(root, ".github/bots/schemas/bot1-ingestion-output.schema.json"));
   const validate = new Ajv2020({ allErrors: true, strict: false }).compile(schema);
   if (!validate(output)) {
-    const errors = (validate.errors || []).map((error) => `${error.instancePath || "/"}: ${error.message}`).join("; ");
-    throw new Error(`Bot 1 response failed schema validation: ${errors}`);
+    const errors = validationErrors(validate, output);
+    const repairSystem = `${system}\nYour previous response failed validation. Return a complete corrected object, not a partial patch. Do not omit any top-level section or required nested field.`;
+    const repairUser = JSON.stringify({ issue: input, invalidResponse: output, validationErrors: errors });
+    output = (await completeJson({ model: MODEL, system: repairSystem, user: repairUser, maxTokens: 3500, attempts: 1 })).data;
+    output.meta = {
+      ...(output.meta || {}),
+      sourceIssue: input.url,
+      labelMatched: "write-blog",
+      language: "en",
+      inputSizeChars: input.body.length,
+      sourcePriority: ["attachments", "issue body", "chat link"],
+      attachmentsUsed: output.meta?.attachmentsUsed || [],
+      chatLinkFetchStatus: output.meta?.chatLinkFetchStatus || { status: "skipped", url: "", reason: "No chat link fetch performed by Bot 1" }
+    };
+    output.meta.model = MODEL;
+    if (!validate(output)) {
+      throw new Error(`Bot 1 response failed schema validation after repair: ${validationErrors(validate, output)}`);
+    }
   }
 
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
