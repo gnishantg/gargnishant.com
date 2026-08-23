@@ -125,6 +125,8 @@ jobs:
 
   bot2_from_bot1:
     needs: bot1_from_issue
+    outputs:
+      ready: ${{ steps.bot2_status.outputs.ready }}
     if: >-
       needs.bot1_from_issue.result == 'success' &&
       contains(github.event.issue.labels.*.name, 'write-blog')
@@ -164,6 +166,15 @@ jobs:
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GROQ_BOT2_MODEL: openai/gpt-oss-120b
+
+      - name: Capture Bot 2 handoff status
+        id: bot2_status
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const output = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/bot2-output.json', 'utf8'));
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `ready=${output?.handoff?.readyForSeoBot === true}\n`);
+          NODE
 
       - name: Upload Bot 2 output artifact
         if: success()
@@ -239,7 +250,7 @@ jobs:
 
   bot3_refine_and_validate:
     needs: bot2_from_bot1
-    if: needs.bot2_from_bot1.result == 'success'
+    if: needs.bot2_from_bot1.result == 'success' && needs.bot2_from_bot1.outputs.ready == 'true'
     runs-on: ubuntu-latest
 
     steps:
