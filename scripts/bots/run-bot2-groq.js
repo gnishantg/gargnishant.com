@@ -41,7 +41,7 @@ async function coverImage(topic) {
 
 function comment(output) {
   const headline = output.handoff.readyForSeoBot ? "**Bot 2 Result: READY for SEO review**" : "**Bot 2 Result: BLOCKED**";
-  return ["<!-- bot-2-output -->", "", headline, "", `- Model: ${MODEL}`, `- Word count: ${output.meta.wordCount} (target: 500-800)`, "", "```json", JSON.stringify(output, null, 2), "```", ""].join("\n");
+  return ["<!-- bot-2-output -->", "", headline, "", `- Model: ${MODEL}`, `- Word count: ${output.meta.wordCount} (target: 300-800)`, "", "```json", JSON.stringify(output, null, 2), "```", ""].join("\n");
 }
 
 const writerResponseSchema = {
@@ -115,13 +115,13 @@ async function main() {
   if (!draftValidator(draft)) throw new Error(`Bot 2 writer response failed schema validation: ${responseErrors(draftValidator, draft)}`);
   const bodyWords = words(draft.markdownBody);
   const blockers = [];
-  if (bodyWords < 500) blockers.push("content_too_short");
+  if (bodyWords < 300) blockers.push("content_too_short");
   if (bodyWords > 800) blockers.push("content_too_long");
   if (String(draft.title || "").length > 60) blockers.push("title_too_long");
   const slug = slugify(draft.title);
   const date = new Date().toISOString().slice(0, 10);
   const output = {
-    meta: { sourceIssue: event?.issue?.html_url || "", inputMarker: "bot-1-output", language: "en", targetWordRange: { min: 500, max: 800 }, wordCount: bodyWords, contentType: bot1.classification.contentType, audience: bot1.classification.audience.value, primaryTopic: topic },
+    meta: { sourceIssue: event?.issue?.html_url || "", inputMarker: "bot-1-output", language: "en", targetWordRange: { min: 300, max: 800 }, wordCount: bodyWords, contentType: bot1.classification.contentType, audience: bot1.classification.audience.value, primaryTopic: topic },
     draft: { title: draft.title, slug, frontMatter: { title: draft.title, date, excerpt: draft.excerpt, category: draft.category || bot1.classification.contentType, layout: "layouts/content-page.njk", permalink: `/blogs/${slug}/`, activeNav: "blogs", image: image.url, ogImage: image.url, coverAlt: `Illustration for ${topic}`, readTime: `${Math.max(1, Math.round(bodyWords / 180))} min read`, seoTitle: null, metaDescription: null, canonicalUrl: null, tags: [], updated: null }, markdownBody: draft.markdownBody, sectionsPresent: draft.sectionsPresent, inlineCitationCount: draft.inlineCitationCount || 0 },
     quality: { readability: { fleschKincaidGrade: 8.8 }, paragraphWarnings: [], sentenceVarietyWarnings: [], imageFetch: { provider: "unsplash", query: topic, attempts: image.attempts, status: "success", url: image.url }, imageAltSource: "derived_from_primary_topic" },
     handoff: { readyForSeoBot: blockers.length === 0, blockers, warnings: [], notesForSeoBot: "Finalize SEO metadata without changing the article body." }

@@ -25,7 +25,7 @@
           "type": "object",
           "required": ["min", "max"],
           "properties": {
-            "min": { "const": 500 },
+            "min": { "const": 300 },
             "max": { "const": 800 }
           }
         },

@@ -4,7 +4,7 @@
     "inputMarker": "bot-1-output",
     "language": "en",
     "targetWordRange": {
-      "min": 500,
+      "min": 300,
       "max": 800
     },
     "wordCount": 0,

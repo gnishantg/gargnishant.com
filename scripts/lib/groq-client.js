@@ -1,15 +1,5 @@
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
-function strictSchema(value) {
-  if (Array.isArray(value)) return value.map(strictSchema);
-  if (!value || typeof value !== "object") return value;
-
-  const result = {};
-  for (const [key, child] of Object.entries(value)) result[key] = strictSchema(child);
-  if (result.type === "object" || result.properties) result.additionalProperties = false;
-  return result;
-}
-
 function extractJson(text) {
   const value = String(text || "").trim();
   const fenced = value.match(/```(?:json)?\s*([\s\S]*?)```/i);
@@ -43,7 +33,7 @@ async function completeJson({ model, system, user, maxTokens = 4096, attempts = 
           max_completion_tokens: maxTokens,
           reasoning_effort: "low",
           response_format: schema
-            ? { type: "json_schema", json_schema: { name: "bot_output", strict: true, schema: strictSchema(schema) } }
+            ? { type: "json_schema", json_schema: { name: "bot_output", strict: true, schema } }
             : { type: "json_object" },
           messages: [
             { role: "system", content: system },

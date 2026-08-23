@@ -19,7 +19,7 @@ Run only after a valid Bot 1 output is available in the issue thread marker `<!-
 ## Content Requirements
 - Tone: casual and conversational
 - Structure: Intro -> Problem -> Solution -> Examples -> Conclusion
-- Length target: 500-800 words (soft guideline, up to 15 percent over allowed)
+- Length target: 300-800 words (soft guideline, up to 15 percent over allowed)
 - Evidence usage: use Bot 1 evidence as inspiration, rewrite in your own words
 - Attribution style: inline references such as "As mentioned in the transcript..."
 

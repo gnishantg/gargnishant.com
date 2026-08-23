@@ -320,7 +320,7 @@ function buildBlockedPayload(event, bot1, blockers, warnings, notes, imageFailur
       sourceIssue,
       inputMarker: "bot-1-output",
       language: "en",
-      targetWordRange: { min: 500, max: 800 },
+      targetWordRange: { min: 300, max: 800 },
       wordCount: 0,
       contentType,
       audience,
@@ -394,7 +394,7 @@ function buildComment(bot2Output) {
     "",
     headline,
     "",
-    `- Word count: ${wc} (target: 500-800)`,
+    `- Word count: ${wc} (target: 300-800)`,
     `- Readability (Flesch-Kincaid): ${grade}`,
     `- Cover image: ${imageUrl}`,
     "",
@@ -476,7 +476,7 @@ async function main() {
             sourceIssue: event?.issue?.html_url || "",
             inputMarker: "bot-1-output",
             language: "en",
-            targetWordRange: { min: 500, max: 800 },
+            targetWordRange: { min: 300, max: 800 },
             wordCount,
             contentType: bot1?.classification?.contentType || "unknown",
             audience: bot1?.classification?.audience?.value || "general public",
@@ -533,7 +533,7 @@ async function main() {
             blockers: [],
             warnings: [
               ...(bot1?.handoff?.warnings || []),
-              ...(wordCount < 500 || wordCount > 800 ? ["word_count_outside_target_soft_range"] : [])
+              ...(wordCount < 300 || wordCount > 800 ? ["word_count_outside_target_soft_range"] : [])
             ],
             notesForSeoBot: "Please finalize seoTitle, metaDescription, canonicalUrl, tags, and updated fields."
           }
