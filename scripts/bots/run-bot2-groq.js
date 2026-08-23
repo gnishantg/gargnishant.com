@@ -44,6 +44,35 @@ function comment(output) {
   return ["<!-- bot-2-output -->", "", headline, "", `- Model: ${MODEL}`, `- Word count: ${output.meta.wordCount} (target: 500-800)`, "", "```json", JSON.stringify(output, null, 2), "```", ""].join("\n");
 }
 
+const writerResponseSchema = {
+  type: "object",
+  required: ["title", "excerpt", "category", "markdownBody", "sectionsPresent", "inlineCitationCount"],
+  properties: {
+    title: { type: "string" },
+    excerpt: { type: "string" },
+    category: { type: "string" },
+    markdownBody: { type: "string" },
+    sectionsPresent: {
+      type: "object",
+      required: ["intro", "problem", "solution", "examples", "conclusion"],
+      properties: {
+        intro: { type: "boolean" },
+        problem: { type: "boolean" },
+        solution: { type: "boolean" },
+        examples: { type: "boolean" },
+        conclusion: { type: "boolean" }
+      }
+    },
+    inlineCitationCount: { type: "integer", minimum: 0 }
+  }
+};
+
+function responseErrors(validate, value) {
+  return (validate(value), validate.errors || [])
+    .map((error) => `${error.instancePath || "/"}: ${error.message}`)
+    .join("; ");
+}
+
 async function main() {
   const options = args(process.argv);
   const root = process.cwd();
@@ -64,13 +93,26 @@ async function main() {
   const system = [
     "You are Bot 2, a careful technical blog writer.",
     "Return JSON only with title, excerpt, category, markdownBody, sectionsPresent, and inlineCitationCount.",
+    "sectionsPresent must be an object with boolean fields intro, problem, solution, examples, and conclusion.",
     "Write 600 to 800 words, with exactly these sections: ## Intro, ## Problem, ## Solution, ## Examples, ## Conclusion.",
     "Use only the supplied Bot 1 evidence. Do not invent facts, statistics, claims, or personal experience.",
     "Use a practical, conversational style. Include concrete examples grounded in the evidence.",
     "The title must be no longer than 60 characters. Cite source material naturally when using evidence."
   ].join("\n");
-  const result = await completeJson({ model: MODEL, system, user: JSON.stringify({ bot1 }), maxTokens: 5000 });
-  const draft = result.data;
+  const draftValidator = new Ajv2020({ allErrors: true, strict: false }).compile(writerResponseSchema);
+  let draft = (await completeJson({ model: MODEL, system, user: JSON.stringify({ bot1 }), maxTokens: 3500, schema: writerResponseSchema })).data;
+  if (!draftValidator(draft)) {
+    const errors = responseErrors(draftValidator, draft);
+    draft = (await completeJson({
+      model: MODEL,
+      system: `${system}\nYour previous response failed the writer response schema. Return the complete corrected object, including sectionsPresent as an object of five booleans.`,
+      user: JSON.stringify({ bot1, validationErrors: errors }),
+      maxTokens: 2500,
+      attempts: 1,
+      schema: writerResponseSchema
+    })).data;
+  }
+  if (!draftValidator(draft)) throw new Error(`Bot 2 writer response failed schema validation: ${responseErrors(draftValidator, draft)}`);
   const bodyWords = words(draft.markdownBody);
   const blockers = [];
   if (bodyWords < 500) blockers.push("content_too_short");
