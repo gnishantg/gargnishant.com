@@ -8,7 +8,7 @@ const INPUT_MARKER = "<!-- bot-1-output -->";
 
 function args(argv) {
   const output = {};
-  for (let i = 2; i < argv.length; i += 1) {
+  for (let i = 2; i < argv.length; i += 2) {
     const key = argv[i].replace(/^--/, "").replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
     output[key] = argv[i + 1];
   }
@@ -51,6 +51,11 @@ async function main() {
   const bot1 = options.inputBot1
     ? readJson(options.inputBot1)
     : markerJson(event?.comment?.body);
+  const bot1Schema = readJson(path.join(root, ".github/bots/schemas/bot1-ingestion-output.schema.json"));
+  const validateBot1 = new Ajv2020({ allErrors: true, strict: false }).compile(bot1Schema);
+  if (!validateBot1(bot1)) {
+    throw new Error(`Bot 1 artifact failed schema validation: ${(validateBot1.errors || []).map((error) => `${error.instancePath || "/"}: ${error.message}`).join("; ")}`);
+  }
   if (bot1?.handoff?.readyForWriterBot !== true) throw new Error("Bot 1 is not ready for writing");
   const topic = bot1.classification.primaryTopic.value;
   const image = await coverImage(topic);

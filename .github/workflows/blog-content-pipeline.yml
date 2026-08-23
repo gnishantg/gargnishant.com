@@ -153,6 +153,19 @@ jobs:
           name: bot1-output
           path: ${{ runner.temp }}
 
+      - name: Inspect Bot 1 handoff
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const output = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/bot1-output.json', 'utf8'));
+          console.log(JSON.stringify({
+            sourceIssue: output?.meta?.sourceIssue || '',
+            primaryTopic: output?.classification?.primaryTopic?.value || '',
+            readyForWriterBot: output?.handoff?.readyForWriterBot,
+            blockers: output?.handoff?.blockers || []
+          }));
+          NODE
+
       - name: Generate Bot 2 output from Bot 1 artifact
         run: |
           node scripts/bots/run-bot2-groq.js \
