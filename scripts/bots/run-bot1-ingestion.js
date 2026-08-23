@@ -25,7 +25,7 @@ function loadJson(filePath) {
 
 function issueInput(event) {
   const issue = event?.issue || {};
-  const body = String(issue.body || "").slice(0, 50000);
+  const body = String(issue.body || "").slice(0, 10000);
   const links = [...body.matchAll(/https?:\/\/[^\s)]+/g)].map((match) => match[0]).slice(0, 5);
   return {
     number: issue.number || 0,
@@ -63,7 +63,7 @@ async function main() {
     "Include every required nested field from the Bot1IngestionOutput schema in .github/bots/schemas/bot1-ingestion-output.schema.json."
   ].join("\n");
   const user = JSON.stringify({ issue: input, sourcePriority: ["attachments", "issue body", "chat link"] });
-  const result = await completeJson({ model: MODEL, system, user, maxTokens: 3000 });
+  const result = await completeJson({ model: MODEL, system, user, maxTokens: 1200 });
   let output = result.data;
   output.meta = {
     ...(output.meta || {}),
@@ -83,7 +83,7 @@ async function main() {
     const errors = validationErrors(validate, output);
     const repairSystem = `${system}\nYour previous response failed validation. Return a complete corrected object, not a partial patch. Do not omit any top-level section or required nested field.`;
     const repairUser = JSON.stringify({ issue: input, invalidResponse: output, validationErrors: errors });
-    output = (await completeJson({ model: MODEL, system: repairSystem, user: repairUser, maxTokens: 3500, attempts: 1 })).data;
+    output = (await completeJson({ model: MODEL, system: repairSystem, user: repairUser, maxTokens: 1400, attempts: 1 })).data;
     output.meta = {
       ...(output.meta || {}),
       sourceIssue: input.url,

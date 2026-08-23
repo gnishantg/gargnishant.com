@@ -9,7 +9,7 @@ const INPUT_MARKER = "<!-- bot-1-output -->";
 function args(argv) {
   const output = {};
   for (let i = 2; i < argv.length; i += 1) output[argv[i].replace(/^--/, "")] = argv[i + 1];
-  if (!output.event || !output.output || !output.comment) throw new Error("Usage: node scripts/bots/run-bot2-groq.js --event <event.json> --output <output.json> --comment <comment.md>");
+  if ((!output.event && !output.inputBot1) || !output.output || !output.comment) throw new Error("Usage: node scripts/bots/run-bot2-groq.js (--event <event.json> | --input-bot1 <bot1.json>) --output <output.json> --comment <comment.md>");
   return output;
 }
 
@@ -44,8 +44,8 @@ function comment(output) {
 async function main() {
   const options = args(process.argv);
   const root = process.cwd();
-  const event = readJson(options.event);
-  const bot1 = markerJson(event?.comment?.body);
+  const event = options.event ? readJson(options.event) : {};
+  const bot1 = options.inputBot1 ? readJson(options.inputBot1) : markerJson(event?.comment?.body);
   if (bot1?.handoff?.readyForWriterBot !== true) throw new Error("Bot 1 is not ready for writing");
   const topic = bot1.classification.primaryTopic.value;
   const image = await coverImage(topic);

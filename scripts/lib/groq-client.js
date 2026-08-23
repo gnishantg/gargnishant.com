@@ -41,11 +41,18 @@ async function completeJson({ model, system, user, maxTokens = 4096, attempts = 
       });
 
       const payload = await response.json();
-      if (!response.ok) throw new Error(`Groq API ${response.status}: ${payload?.error?.message || response.statusText}`);
+      if (!response.ok) {
+        const error = new Error(`Groq API ${response.status}: ${payload?.error?.message || response.statusText}`);
+        const retryAfter = Number(response.headers.get("retry-after"));
+        if (Number.isFinite(retryAfter) && retryAfter > 0) error.retryAfterMs = retryAfter * 1000;
+        throw error;
+      }
       return { data: extractJson(payload?.choices?.[0]?.message?.content), usage: payload.usage || {} };
     } catch (error) {
       lastError = error;
-      if (attempt < attempts) await new Promise((resolve) => setTimeout(resolve, 1500 * attempt));
+      if (attempt < attempts) {
+        await new Promise((resolve) => setTimeout(resolve, Math.max(1500 * attempt, error.retryAfterMs || 0)));
+      }
     }
   }
   throw lastError;
