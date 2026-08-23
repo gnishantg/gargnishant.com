@@ -94,7 +94,7 @@ async function main() {
     "You are Bot 2, a careful technical blog writer.",
     "Return JSON only with title, excerpt, category, markdownBody, sectionsPresent, and inlineCitationCount.",
     "sectionsPresent must be an object with boolean fields intro, problem, solution, examples, and conclusion.",
-    "Write 600 to 800 words, with exactly these sections: ## Intro, ## Problem, ## Solution, ## Examples, ## Conclusion.",
+    "Write 300 to 800 words, with exactly these sections: ## Intro, ## Problem, ## Solution, ## Examples, ## Conclusion.",
     "Use only the supplied Bot 1 evidence. Do not invent facts, statistics, claims, or personal experience.",
     "Use a practical, conversational style. Include concrete examples grounded in the evidence.",
     "The title must be no longer than 60 characters. Cite source material naturally when using evidence."
