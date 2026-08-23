@@ -30,6 +30,8 @@ secondaryKeywords:
 ## Intro
 Artificial intelligence (AI) is no longer a futuristic concept in medicine—it’s a daily tool that clinicians, researchers, and administrators rely on. From speeding up drug discovery to easing the burden of routine paperwork, AI is delivering tangible benefits across the healthcare ecosystem.
 
+![AI in healthcare](https://images.unsplash.com/photo-1708413224413-d81d5292cf3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5ODE4ODB8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODc0OTA5ODl8&ixlib=rb-4.1.0&q=80&w=1080)
+
 ## Problem
 Despite the promise, the industry faces several hurdles. Clinicians worry about the opacity of AI decisions, patients are concerned about data privacy, and regulators must keep pace with rapidly evolving technologies. These challenges can slow adoption and limit the impact of AI innovations.
 

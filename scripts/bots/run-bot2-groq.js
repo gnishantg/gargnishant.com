@@ -30,6 +30,12 @@ function slugify(value) {
 
 function words(value) { return String(value || "").trim().split(/\s+/).filter(Boolean).length; }
 
+function addCoverImage(markdownBody, imageUrl, altText) {
+  const imageMarkdown = `![${altText}](${imageUrl})`;
+  if (String(markdownBody || "").includes(imageMarkdown)) return markdownBody;
+  return String(markdownBody || "").replace(/\n## Problem\b/, `\n\n${imageMarkdown}\n\n## Problem`);
+}
+
 async function coverImage(topic) {
   const key = process.env.UNSPLASH_ACCESS_KEY;
   if (!key) return { url: "", status: "failed", attempts: 1, reason: "unsplash_api_key_missing" };
@@ -113,6 +119,7 @@ async function main() {
     })).data;
   }
   if (!draftValidator(draft)) throw new Error(`Bot 2 writer response failed schema validation: ${responseErrors(draftValidator, draft)}`);
+  const markdownBody = addCoverImage(draft.markdownBody, image.url, topic);
   const bodyWords = words(draft.markdownBody);
   const blockers = [];
   if (bodyWords < 300) blockers.push("content_too_short");
@@ -122,7 +129,7 @@ async function main() {
   const date = new Date().toISOString().slice(0, 10);
   const output = {
     meta: { sourceIssue: event?.issue?.html_url || "", inputMarker: "bot-1-output", language: "en", targetWordRange: { min: 300, max: 800 }, wordCount: bodyWords, contentType: bot1.classification.contentType, audience: bot1.classification.audience.value, primaryTopic: topic },
-    draft: { title: draft.title, slug, frontMatter: { title: draft.title, date, excerpt: draft.excerpt, category: draft.category || bot1.classification.contentType, layout: "layouts/content-page.njk", permalink: `/blogs/${slug}/`, activeNav: "blogs", image: image.url, ogImage: image.url, coverAlt: `Illustration for ${topic}`, readTime: `${Math.max(1, Math.round(bodyWords / 180))} min read`, seoTitle: null, metaDescription: null, canonicalUrl: null, tags: [], updated: null }, markdownBody: draft.markdownBody, sectionsPresent: draft.sectionsPresent, inlineCitationCount: draft.inlineCitationCount || 0 },
+    draft: { title: draft.title, slug, frontMatter: { title: draft.title, date, excerpt: draft.excerpt, category: draft.category || bot1.classification.contentType, layout: "layouts/content-page.njk", permalink: `/blogs/${slug}/`, activeNav: "blogs", image: image.url, ogImage: image.url, coverAlt: `Illustration for ${topic}`, readTime: `${Math.max(1, Math.round(bodyWords / 180))} min read`, seoTitle: null, metaDescription: null, canonicalUrl: null, tags: [], updated: null }, markdownBody, sectionsPresent: draft.sectionsPresent, inlineCitationCount: draft.inlineCitationCount || 0 },
     quality: { readability: { fleschKincaidGrade: 8.8 }, paragraphWarnings: [], sentenceVarietyWarnings: [], imageFetch: { provider: "unsplash", query: topic, attempts: image.attempts, status: "success", url: image.url }, imageAltSource: "derived_from_primary_topic" },
     handoff: { readyForSeoBot: blockers.length === 0, blockers, warnings: [], notesForSeoBot: "Finalize SEO metadata without changing the article body." }
   };

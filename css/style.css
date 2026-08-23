@@ -292,6 +292,15 @@ body {
     color: #64748b;
 }
 
+.about-text img {
+    display: block;
+    width: 100%;
+    max-height: 420px;
+    margin: 2rem 0 2.5rem;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
 .education-content h4 {
     color: #1e293b;
     margin-bottom: 0.5rem;
