@@ -225,10 +225,9 @@ jobs:
               `- Duration: ${durationSec}s`,
               `- Run URL: ${runUrl}`,
               '',
-              '- Could not parse or validate the Bot 1 payload from this comment.',
-              '- Ensure marker <!-- bot-1-output --> exists and contains valid JSON.',
-              '- Accepted formats: raw JSON text, fenced JSON block, or plain fenced block.',
-              '- Check workflow logs for exact error details.'
+              '- Could not read or validate the Bot 1 artifact.',
+              '- Check that the Bot 1 job uploaded bot1-output.json and completed successfully.',
+              '- Check workflow logs for the exact error details.',
             ].join('\n');
 
             await github.rest.issues.createComment({
