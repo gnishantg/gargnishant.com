@@ -1,6 +1,8 @@
 name: Blog Content Pipeline
 
 on:
+  issues:
+    types: [opened]
   issue_comment:
     types: [created]
 
@@ -9,11 +11,115 @@ permissions:
   issues: write
 
 jobs:
+  bot1_from_issue:
+    if: >-
+      contains(github.event.issue.labels.*.name, 'write-blog') &&
+      (
+        github.event_name == 'issues' ||
+        (
+          github.event_name == 'issue_comment' &&
+          contains(github.event.comment.body, '/start-blog-pipeline') &&
+          github.event.comment.author_association == 'OWNER'
+        )
+      )
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Skip if Bot 1 already posted
+        id: existing_bot1
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100
+            });
+            const exists = comments.some((comment) => comment.body?.includes('<!-- bot-1-output -->'));
+            const rerun = context.payload.comment?.body?.trim() === '/start-blog-pipeline';
+            core.setOutput('exists', exists ? 'true' : 'false');
+            core.setOutput('rerun', rerun ? 'true' : 'false');
+
+      - name: Stop duplicate Bot 1 run
+        if: steps.existing_bot1.outputs.exists == 'true' && steps.existing_bot1.outputs.rerun != 'true'
+        run: echo "Bot 1 output already exists for this issue. Use /start-blog-pipeline to rerun it."
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        if: steps.existing_bot1.outputs.exists != 'true' || steps.existing_bot1.outputs.rerun == 'true'
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+        if: steps.existing_bot1.outputs.exists != 'true' || steps.existing_bot1.outputs.rerun == 'true'
+
+      - name: Generate Bot 1 output with Groq
+        if: steps.existing_bot1.outputs.exists != 'true' || steps.existing_bot1.outputs.rerun == 'true'
+        run: |
+          node scripts/bots/run-bot1-ingestion.js \
+            --event "$GITHUB_EVENT_PATH" \
+            --output "$RUNNER_TEMP/bot1-output.json" \
+            --comment "$RUNNER_TEMP/bot1-comment.md"
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_BOT1_MODEL: openai/gpt-oss-20b
+
+      - name: Validate Bot 1 output
+        run: npm run validate:bot1
+        if: steps.existing_bot1.outputs.exists != 'true' || steps.existing_bot1.outputs.rerun == 'true'
+
+      - name: Validate runtime Bot 1 output
+        if: steps.existing_bot1.outputs.exists != 'true' || steps.existing_bot1.outputs.rerun == 'true'
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const Ajv = require('ajv/dist/2020');
+          const schema = JSON.parse(fs.readFileSync(path.join(process.cwd(), '.github/bots/schemas/bot1-ingestion-output.schema.json'), 'utf8'));
+          const output = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/bot1-output.json', 'utf8'));
+          const validate = new Ajv({ allErrors: true, strict: false }).compile(schema);
+          if (!validate(output)) {
+            throw new Error((validate.errors || []).map((error) => `${error.instancePath || '/'}: ${error.message}`).join('; '));
+          }
+          NODE
+
+      - name: Post Bot 1 comment
+        if: success() && (steps.existing_bot1.outputs.exists != 'true' || steps.existing_bot1.outputs.rerun == 'true')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync(`${process.env.RUNNER_TEMP}/bot1-comment.md`, 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
+
+      - name: Post Bot 1 failure comment
+        if: failure() && (steps.existing_bot1.outputs.exists != 'true' || steps.existing_bot1.outputs.rerun == 'true')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '**Bot 1 Result: BLOCKED**\n\nGroq ingestion failed. Check the workflow logs and confirm GROQ_API_KEY and model availability.'
+            });
+
   bot2_from_bot1_comment:
     if: >-
       contains(github.event.issue.labels.*.name, 'write-blog') &&
       contains(github.event.comment.body, '<!-- bot-1-output -->') &&
-      github.event.sender.login != 'github-actions[bot]'
+      github.event.comment.user.login == 'github-actions[bot]'
     runs-on: ubuntu-latest
 
     steps:
@@ -35,12 +141,14 @@ jobs:
 
       - name: Generate Bot 2 output from Bot 1 marker
         run: |
-          node scripts/bots/run-bot2-writer.js \
+          node scripts/bots/run-bot2-groq.js \
             --event "$GITHUB_EVENT_PATH" \
             --output "$RUNNER_TEMP/bot2-output.json" \
             --comment "$RUNNER_TEMP/bot2-comment.md"
         env:
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_BOT2_MODEL: openai/gpt-oss-120b
 
       - name: Upload Bot 2 output artifact
         if: success()
@@ -145,10 +253,13 @@ jobs:
 
       - name: Generate Bot 3 output from Bot 2 payload
         run: |
-          node scripts/bots/run-bot3-seo-refiner.js \
+          node scripts/bots/run-bot3-groq.js \
             --input "$RUNNER_TEMP/bot2-output.json" \
             --output "$RUNNER_TEMP/bot3-output.json" \
             --comment "$RUNNER_TEMP/bot3-comment.md"
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_BOT3_MODEL: openai/gpt-oss-20b
 
       - name: Validate Bot 3 output
         run: |
