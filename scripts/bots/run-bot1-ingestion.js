@@ -25,7 +25,7 @@ function loadJson(filePath) {
 
 function issueInput(event) {
   const issue = event?.issue || {};
-  const body = String(issue.body || "").slice(0, 10000);
+  const body = String(issue.body || "").slice(0, 6000);
   const links = [...body.matchAll(/https?:\/\/[^\s)]+/g)].map((match) => match[0]).slice(0, 5);
   return {
     number: issue.number || 0,
@@ -50,6 +50,7 @@ function validationErrors(validate, output) {
 async function main() {
   const { eventPath, outputPath, commentPath } = parseArgs(process.argv);
   const root = process.cwd();
+  const schema = loadJson(path.join(root, ".github/bots/schemas/bot1-ingestion-output.schema.json"));
   const event = loadJson(eventPath);
   const input = issueInput(event);
   const system = [
@@ -63,7 +64,7 @@ async function main() {
     "Include every required nested field from the Bot1IngestionOutput schema in .github/bots/schemas/bot1-ingestion-output.schema.json."
   ].join("\n");
   const user = JSON.stringify({ issue: input, sourcePriority: ["attachments", "issue body", "chat link"] });
-  const result = await completeJson({ model: MODEL, system, user, maxTokens: 1200 });
+  const result = await completeJson({ model: MODEL, system, user, maxTokens: 1000, schema });
   let output = result.data;
   output.meta = {
     ...(output.meta || {}),
@@ -77,13 +78,12 @@ async function main() {
   };
   output.meta.model = MODEL;
 
-  const schema = loadJson(path.join(root, ".github/bots/schemas/bot1-ingestion-output.schema.json"));
   const validate = new Ajv2020({ allErrors: true, strict: false }).compile(schema);
   if (!validate(output)) {
     const errors = validationErrors(validate, output);
     const repairSystem = `${system}\nYour previous response failed validation. Return a complete corrected object, not a partial patch. Do not omit any top-level section or required nested field.`;
-    const repairUser = JSON.stringify({ issue: input, invalidResponse: output, validationErrors: errors });
-    output = (await completeJson({ model: MODEL, system: repairSystem, user: repairUser, maxTokens: 1400, attempts: 1 })).data;
+    const repairUser = JSON.stringify({ issue: input, validationErrors: errors });
+    output = (await completeJson({ model: MODEL, system: repairSystem, user: repairUser, maxTokens: 1000, attempts: 1, schema })).data;
     output.meta = {
       ...(output.meta || {}),
       sourceIssue: input.url,

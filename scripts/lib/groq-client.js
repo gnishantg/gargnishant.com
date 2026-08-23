@@ -14,7 +14,7 @@ function extractJson(text) {
   }
 }
 
-async function completeJson({ model, system, user, maxTokens = 4096, attempts = 2 }) {
+async function completeJson({ model, system, user, maxTokens = 4096, attempts = 2, schema }) {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) throw new Error("GROQ_API_KEY is not configured");
 
@@ -30,8 +30,11 @@ async function completeJson({ model, system, user, maxTokens = 4096, attempts = 
         body: JSON.stringify({
           model,
           temperature: 0.2,
-          max_tokens: maxTokens,
-          response_format: { type: "json_object" },
+          max_completion_tokens: maxTokens,
+          reasoning_effort: "low",
+          response_format: schema
+            ? { type: "json_schema", json_schema: { name: "bot_output", strict: true, schema } }
+            : { type: "json_object" },
           messages: [
             { role: "system", content: system },
             { role: "user", content: user }
