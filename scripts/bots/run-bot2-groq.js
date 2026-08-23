@@ -44,17 +44,6 @@ function comment(output) {
   return ["<!-- bot-2-output -->", "", headline, "", `- Model: ${MODEL}`, `- Word count: ${output.meta.wordCount} (target: 500-800)`, "", "```json", JSON.stringify(output, null, 2), "```", ""].join("\n");
 }
 
-function blockedOutput(event, bot1) {
-  const topic = bot1?.classification?.primaryTopic?.value || "Unknown";
-  const blockers = bot1?.handoff?.blockers || ["bot1_not_ready"];
-  return {
-    meta: { sourceIssue: event?.issue?.html_url || "", inputMarker: "bot-1-output", language: "en", targetWordRange: { min: 500, max: 800 }, wordCount: 0, contentType: bot1?.classification?.contentType || "unknown", audience: bot1?.classification?.audience?.value || "general public", primaryTopic: topic },
-    draft: { title: "", slug: "blocked", frontMatter: { title: "", date: new Date().toISOString().slice(0, 10), excerpt: "", category: bot1?.classification?.contentType || "unknown", layout: "layouts/content-page.njk", permalink: "/blogs/blocked/", activeNav: "blogs", image: "", ogImage: "", coverAlt: "", readTime: "0 min read", seoTitle: null, metaDescription: null, canonicalUrl: null, tags: [], updated: null }, markdownBody: "", sectionsPresent: { intro: false, problem: false, solution: false, examples: false, conclusion: false }, inlineCitationCount: 0 },
-    quality: { readability: { fleschKincaidGrade: 0 }, paragraphWarnings: [], sentenceVarietyWarnings: [], imageFetch: { provider: "unsplash", query: topic, attempts: 1, status: "failed", url: "", failureReason: "bot1_not_ready" }, imageAltSource: "none" },
-    handoff: { readyForSeoBot: false, blockers, warnings: bot1?.handoff?.warnings || [], notesForSeoBot: "Bot 1 is not ready. Resolve its blockers before requesting article generation." }
-  };
-}
-
 async function main() {
   const options = args(process.argv);
   const root = process.cwd();
@@ -62,15 +51,7 @@ async function main() {
   const bot1 = options.inputBot1
     ? readJson(options.inputBot1)
     : markerJson(event?.comment?.body);
-  if (bot1?.handoff?.readyForWriterBot !== true) {
-    const output = blockedOutput(event, bot1);
-    const validate = new Ajv2020({ allErrors: true, strict: false }).compile(readJson(path.join(root, ".github/bots/schemas/bot2-writer-output.schema.json")));
-    if (!validate(output)) throw new Error(`Bot 2 blocked output failed schema validation: ${(validate.errors || []).map((e) => `${e.instancePath || "/"}: ${e.message}`).join("; ")}`);
-    fs.mkdirSync(path.dirname(options.output), { recursive: true });
-    fs.writeFileSync(options.output, JSON.stringify(output, null, 2));
-    fs.writeFileSync(options.comment, comment(output));
-    return;
-  }
+  if (bot1?.handoff?.readyForWriterBot !== true) throw new Error("Bot 1 is not ready for writing");
   const topic = bot1.classification.primaryTopic.value;
   const image = await coverImage(topic);
   if (!image.url) throw new Error(`Cover image unavailable: ${image.reason}`);
